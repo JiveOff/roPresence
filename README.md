@@ -72,11 +72,11 @@ No.
 
 **My game name is not shown, but I want to show it, what do I do?**
 You will have to update your Privacy settings just like the following:
-<br />
+
 <img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
-<br />
+
 and then follow the roPresence ROBLOX Account (https://www.roblox.com/users/1143479593/profile) like the following:
-<br />
+
 <img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Following.png" alt="Following"/>
 Tada! Your presence will show your current game/ROBLOX Studio project!
 
