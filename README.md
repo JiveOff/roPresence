@@ -26,7 +26,7 @@ The browsing one shows up if you are browsing the ROBLOX Website, the playing on
 - Install [**node.js**](https://nodejs.org/en/download/current/)
 - Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and drag the content in a folder.
 - Run the Install.bat
-- **That's it!** You are done for the installation, you may head to the 
+- **That's it!** You are done for the installation, you may head to the Usage section.
 
 If you can't run the Install.bat file, do the following:
 
