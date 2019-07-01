@@ -71,7 +71,7 @@ No.
 
 ## Making the game name show
 
-You will have to update your Privacy settings to make public or just like the following:
+You will have to update your Privacy settings to make it public or just like the following:
 
 <img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
 
