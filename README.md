@@ -23,6 +23,7 @@ The browsing one shows up if you are browsing the ROBLOX Website, the playing on
 
 ## Installation (Windows)
 
+- Install [**node.js**](https://nodejs.org/en/download/current/)
 - Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and drag the content in a folder.
 - Run the Install.bat
 - **That's it!** You are done for the installation, you may head to the 
@@ -70,7 +71,6 @@ No.
 
 ## Making the game name show
 
-**My game name is not shown, but I want to show it, what do I do?**
 You will have to update your Privacy settings just like the following:
 
 <img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
@@ -78,6 +78,7 @@ You will have to update your Privacy settings just like the following:
 and then follow the roPresence ROBLOX Account (https://www.roblox.com/users/1143479593/profile) like the following:
 
 <img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Following.png" alt="Following"/>
+
 Tada! Your presence will show your current game/ROBLOX Studio project!
 
 ## License
