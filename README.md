@@ -24,18 +24,26 @@ The browsing one shows up if you are browsing the ROBLOX Website, the playing on
 ## Installation (Windows)
 
 - Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and drag the content in a folder.
-- In the folder, hold Control + Caps and Right Click in a blank space of the folder to open a Powershell terminal. 
+- Run the Install.bat
+
+If you can't run the Install.bat file, do the following:
+
+- Open a terminal in the folder, to do that, hold Control + Caps and Right Click in a blank space of the folder to open a Powershell terminal. 
 - Once on the Terminal, run:
 ```bash
 # Run this to install all of the dependencies of roPresence.
 $ npm install
 ```
-- Once the packages are installed, just double click the **LaunchPresence.bat** and you're done, the Discord Rich Presence will show up!
+- Once the packages are installed, just double click the **LaunchPresence.bat** and you're done, the Discord Rich Presence will show up! You can still use a terminal in the folder to launch roPresence:
+```bash
+# Run this to launch roPresence.
+$ npm start
+```
 
 
 ## Frequently Asked Questions
 
-This part can be updated anytime!
+This part can be updated anytime with the questions I will receive.
 
 - Does it support MacOS and Linux?
 Probably. Windows is better to me. :eyes:
