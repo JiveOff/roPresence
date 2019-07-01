@@ -51,26 +51,26 @@ $ npm start
 
 This part can be updated anytime with the questions I will receive.
 
-- Does it support MacOS and Linux?
+- **Does it support MacOS and Linux?**
 Probably. Windows is better to me. :eyes:
 
-- My game name is not shown, but I want to show it, what do I do?
+- **My game name is not shown, but I want to show it, what do I do?**
 You will have to update your Privacy settings just like the following:
 <img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
 and then follow the [roPresence](https://www.roblox.com/users/1143479593/profile) ROBLOX Account like the following:
 <img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Following.png" alt="Following"/>
 Tada! Your presence will show your current game/ROBLOX Studio project!
 
-- roPresence is always asking me to follow their bacon hair account to show my game name, but I don't want that!! What do I do?
+- **roPresence is always asking me to follow their bacon hair account to show my game name, but I don't want that!! What do I do?**
 You can hide this tip by just opening the ``config.json`` file in an editor like Notepad or Notepad++ and turn off the ``showTips`` option by replacing ``true`` by ``false``.
 
-- I'm having an error, where do I report it?
+- **I'm having an error, where do I report it?**
 On our [issue page](https://github.com/JiveOff/roPresence/issues)!
 
-- I want to contribute, how can I do so?
+- **I want to contribute, how can I do so?**
 Just push a pull request and I will analyze it asap.
 
-- Can I become friends with roPresence_bot?
+- **Can I become friends with roPresence_bot?**
 No.
 
 ## License
