@@ -6,6 +6,7 @@ const Fetch = require('node-fetch')
 const Notifier = require('node-notifier')
 const Path = require('path')
 const Open = require('open')
+const Config = require('./config.json')
 
 const clientId = '595172822410592266'
 
@@ -35,14 +36,14 @@ async function getROBLOXPresence () {
 }
 
 function sendTip () {
-  if (tipLoc === false) {
+  if (tipLoc === false && Config.showTips == true) {
     tipLoc = true
     tipSuccess = false
     Notifier.notify({
       title: 'roPresence Tip',
-      message: 'To show your game, review your ROBLOX privacy settings to "Friends and users that you follow" and follow the "roPresence_bot" account.',
+      message: 'To show your game, review your ROBLOX privacy settings to "Friends and Users I follow" and follow the "roPresence_bot" account.',
       sound: true,
-      icon: Path.join(__dirname, 'game.png'),
+      icon: Path.join(__dirname, 'img/game.png'),
       wait: true
     })
   }
@@ -56,7 +57,7 @@ function successTip () {
       title: 'roPresence',
       message: 'Great! Your game names are now shown on your presence.',
       sound: true,
-      icon: Path.join(__dirname, 'game.png'),
+      icon: Path.join(__dirname, 'img/game.png'),
       wait: true
     })
   }
@@ -87,7 +88,7 @@ async function setActivity () {
       title: 'roPresence API Error',
       message: 'roPresence ran into an error and had to stop.',
       sound: true,
-      icon: Path.join(__dirname, 'no.png')
+      icon: Path.join(__dirname, 'img/no.png')
     })
     exitRoPresence()
     return
@@ -161,7 +162,7 @@ async function setActivity () {
       title: 'roPresence Loaded',
       message: 'Glad to see you, ' + robloxUser.robloxUsername + '!\nYour presence will be updated once you interact with ROBLOX.',
       sound: true,
-      icon: Path.join(__dirname, 'yes.png')
+      icon: Path.join(__dirname, 'img/yes.png')
     })
   }
 }
@@ -195,7 +196,7 @@ async function robloxVerify () {
       title: 'roPresence Error',
       message: 'To use roPresence, please link your Discord account with verify.eryn.io\n\nClick this bubble to get there.',
       sound: true,
-      icon: Path.join(__dirname, 'no.png'),
+      icon: Path.join(__dirname, 'img/no.png'),
       wait: true
     })
     console.error('RoVer: API returned an error: ' + result.error)
@@ -213,7 +214,7 @@ async function robloxVerify () {
             title: 'roPresence Error',
             message: "We couldn't find your ROBLOX account in time, roPresence has been stopped.\nRelaunch it to retry!",
             sound: true,
-            icon: Path.join(__dirname, 'no.png'),
+            icon: Path.join(__dirname, 'img/no.png'),
             wait: true
           })
           exitRoPresence()
