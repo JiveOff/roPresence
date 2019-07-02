@@ -24,7 +24,6 @@ var tipSuccess = false
 var busyRetrying = false
 
 async function getROBLOXPresence () {
-  console.log('Presence API: Updating ROBLOX presence for ' + robloxUser.robloxUsername + '.')
   try {
     let data = await Fetch('http://51.75.204.210:3000/presences/' + robloxUser.robloxId)
     let main = await data.json()
@@ -39,9 +38,10 @@ function sendTip () {
   if (tipLoc === false && Config.showTips == true) {
     tipLoc = true
     tipSuccess = false
+    console.log('roPresence Tip - To show your game name, head to the README.md in your folder or here: https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
     Notifier.notify({
       title: 'roPresence Tip',
-      message: 'To show your game, review your ROBLOX privacy settings to "Friends and Users I follow" and follow the "roPresence_bot" account.',
+      message: 'Click this notification to know how to make your game name appear.',
       sound: true,
       icon: Path.join(__dirname, 'img/game.png'),
       wait: true
@@ -53,6 +53,7 @@ function successTip () {
   if (tipLoc === true && tipSuccess === false) {
     tipSuccess = true
     tipLoc = false
+    console.log('roPresence - Great! Your game names are now shown on your presence.')
     Notifier.notify({
       title: 'roPresence',
       message: 'Great! Your game names are now shown on your presence.',
@@ -64,11 +65,11 @@ function successTip () {
 }
 
 function exitRoPresence () {
-  console.log('roPresence: Stopping.')
+  console.log('roPresence: Stopping. Exiting cmd in 10 seconds.')
   RPC.destroy()
   setTimeout(() => {
     process.exit()
-  }, 2e3)
+  }, 10e3)
 }
 
 async function setActivity () {
@@ -157,12 +158,14 @@ async function setActivity () {
 
   if (loaded === false) {
     loaded = true
+    console.log('roPresence Loaded - Glad to see you, ' + robloxUser.robloxUsername + '! Your presence will be updated once you interact with ROBLOX.')
     Notifier.notify({
       title: 'roPresence Loaded',
       message: 'Glad to see you, ' + robloxUser.robloxUsername + '!\nYour presence will be updated once you interact with ROBLOX.',
       sound: true,
       icon: Path.join(__dirname, 'img/yes.png')
     })
+    console.log('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.\nIf you unverify, roPresence will stop showing the Discord Presence and ask you to verify yourself again.')
   }
 }
 
@@ -176,7 +179,7 @@ Notifier.on('click', function (notifyObject, opt) {
   if (opt.title === 'roPresence Error') {
     Open('https://verify.eryn.io/')
   } else if (opt.title === 'roPresence Tip') {
-    Open('https://www.roblox.com/users/1143479593/profile')
+    Open('https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
   }
 })
 
@@ -191,6 +194,8 @@ async function robloxVerify () {
     }
     busyRetrying = true
     RPC.clearActivity()
+    
+    console.log('roPresence Error - To use roPresence, please link your Discord account with verify.eryn.io')
     Notifier.notify({
       title: 'roPresence Error',
       message: 'To use roPresence, please link your Discord account with verify.eryn.io\n\nClick this bubble to get there.',
@@ -209,6 +214,7 @@ async function robloxVerify () {
         clearInterval(retry)
       } else {
         if (count === 25) {
+          console.log('roPresence Error - We couldn\'t find your ROBLOX account in time, roPresence has been stopped. Relaunch it to retry.')
           Notifier.notify({
             title: 'roPresence Error',
             message: "We couldn't find your ROBLOX account in time, roPresence has been stopped.\nRelaunch it to retry!",
