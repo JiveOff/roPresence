@@ -26,7 +26,7 @@ The browsing one shows up if you are browsing the ROBLOX Website, the playing on
 - Install [**node.js**](https://nodejs.org/en/download/current/)
 - Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and drag the content in a folder.
 - Run the Install.bat
-- **That's it!** You are done for the installation, you may head to the 
+- **That's it!** You are done for the installation, you may head to the Usage section.
 
 If you can't run the Install.bat file, do the following:
 
@@ -71,7 +71,7 @@ No.
 
 ## Making the game name show
 
-You will have to update your Privacy settings just like the following:
+You will have to update your Privacy settings to make it public or just like the following:
 
 <img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
 
