@@ -85,6 +85,7 @@ async function setActivity () {
   }
 
   if (error) {
+    console.log('roPresence API Error - roPresence ran into an error and had to stop. This error is mainly due to a remote API problem.\nPlease restart the presence.')
     Notifier.notify({
       title: 'roPresence API Error',
       message: 'roPresence ran into an error and had to stop.',
@@ -209,6 +210,7 @@ async function robloxVerify () {
       let result = await getRoverUser()
       console.log('RoVer: Retrying..')
       if (result.status === 'ok') {
+        loaded = false
         init()
         busyRetrying = false
         clearInterval(retry)
