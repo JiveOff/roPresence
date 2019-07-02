@@ -107,6 +107,7 @@ async function setActivity () {
     case 0:
       rpcInfo.details = 'Not playing'
       rpcInfo.state = 'IGN: ' + robloxUser.robloxUsername
+      elapsedLoc = 'Not playing'
       break
     case 1:
       rpcInfo.startTimestamp = elapsed
