@@ -66,6 +66,15 @@ On our [issue page](https://github.com/JiveOff/roPresence/issues)!
 - **I want to contribute, how can I do so?**
 Just push a pull request and I will analyze it asap.
 
+- **Why do you use an external API?**
+The ROBLOX Presences API endpoint requires an user and I prefer to not mess with the .ROBLOSECURITY cookies in the client.
+
+- **Why does my Rich Presence take so long to update?**
+Discord has a 15 seconds limit between Rich Presences updates.
+
+- **Why does roPresence crash because of an API error?**
+The remote API is maybe down or restarted for an update, relaunch roPresence to see if it was a simple restart.
+
 - **Can I become friends with roPresence_bot?**
 No.
 
