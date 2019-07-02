@@ -105,14 +105,17 @@ async function setActivity () {
 
   switch (presenceInfo.userPresenceType) {
     case 0:
-      console.log(robloxUser.robloxUsername + " is offline on ROBLOX. Activity is hidden.")
+      rpcInfo.details = 'Not playing'
+      rpcInfo.state = 'IGN: ' + robloxUser.robloxUsername
       break
     case 1:
+      rpcInfo.startTimestamp = elapsed
       rpcInfo.details = 'On the website'
       rpcInfo.smallImageKey = 'online'
       rpcInfo.smallImageText = 'Browsing the website'
       break
     case 2:
+      rpcInfo.startTimestamp = elapsed
       if (presenceInfo.lastLocation === '') {
         rpcInfo.details = 'Playing a secret game'
         rpcInfo.smallImageKey = 'playing'
@@ -127,6 +130,7 @@ async function setActivity () {
       }
       break
     case 3:
+      rpcInfo.startTimestamp = elapsed
       if (presenceInfo.lastLocation === '') {
         rpcInfo.details = 'Creating a secret game'
         rpcInfo.smallImageKey = 'creating'
@@ -144,17 +148,11 @@ async function setActivity () {
       break
   }
 
-  rpcInfo.startTimestamp = elapsed
   rpcInfo.largeImageKey = 'logo'
   rpcInfo.largeImageText = 'ROBLOX: ' + robloxUser.robloxUsername
   rpcInfo.instance = false
 
-  if (presenceInfo.userPresenceType === 0) {
-    RPC.clearActivity()
-    elapsed = new Date()
-  } else {
-    RPC.setActivity(rpcInfo)
-  }
+  RPC.setActivity(rpcInfo)
 
   if (loaded === false) {
     loaded = true
