@@ -66,7 +66,7 @@ $ npm install
 $ npm start
 ```
 
-- To stop roPresence, just close the terminal. If you launched it in the background, click [**here**](https://127.0.0.1:3000/killRoPresence) or browse to https://127.0.0.1:3000/killRoPresence
+- To stop roPresence, just close the terminal. If you launched it in the background, click [**here**](http://127.0.0.1:3000/killRoPresence) or browse to http://127.0.0.1:3000/killRoPresence
 
 ## Usage (Other)
 
@@ -78,7 +78,7 @@ $ npm start
 $ npm start
 ```
 
-- To stop roPresence, just close the terminal. If you launched it in the background, click [**here**](https://127.0.0.1:3000/killRoPresence) or browse to https://127.0.0.1:3000/killRoPresence
+- To stop roPresence, just close the terminal. If you launched it in the background, click [**here**](http://127.0.0.1:3000/killRoPresence) or browse to http://127.0.0.1:3000/killRoPresence
 
 ## Frequently Asked Questions
 
