@@ -7,7 +7,10 @@ const Notifier = require('node-notifier')
 const Path = require('path')
 const Open = require('open')
 const Config = require('./config.json')
+const File = require('fs')
+const Express = require('express')
 
+const ExpressApp = Express()
 const clientId = '595172822410592266'
 
 const RPC = new DiscordRPC.Client({ transport: 'ipc' })
@@ -23,13 +26,24 @@ var tipSuccess = false
 
 var busyRetrying = false
 
+async function logToFile(text) {
+  console.log(text)
+  File.appendFile('roPresence_log.txt', '\r\n' + text, (err) => {  
+    if (err) throw err
+  })
+}
+
+File.writeFile('roPresence_log.txt', '', (err) => {  
+  if (err) throw err
+})
+
 async function getROBLOXPresence () {
   try {
     let data = await Fetch('http://51.75.204.210:3000/presences/' + robloxUser.robloxId)
     let main = await data.json()
     return main
   } catch (e) {
-    console.error(e)
+    logToFile(e)
     return false
   }
 }
@@ -38,7 +52,7 @@ function sendTip () {
   if (tipLoc === false && Config.showTips == true) {
     tipLoc = true
     tipSuccess = false
-    console.log('roPresence Tip - To show your game name, head to the README.md in your folder or here: https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
+    logToFile('roPresence Tip - To show your game name, head to the README.md in your folder or here: https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
     Notifier.notify({
       title: 'roPresence Tip',
       message: 'Click this notification to know how to make your game name appear.',
@@ -53,7 +67,7 @@ function successTip () {
   if (tipLoc === true && tipSuccess === false) {
     tipSuccess = true
     tipLoc = false
-    console.log('roPresence - Great! Your game names are now shown on your presence.')
+    logToFile('roPresence - Great! Your game names are now shown on your presence.')
     Notifier.notify({
       title: 'roPresence',
       message: 'Great! Your game names are now shown on your presence.',
@@ -65,12 +79,17 @@ function successTip () {
 }
 
 function exitRoPresence () {
-  console.log('roPresence: Stopping. Exiting cmd in 10 seconds.')
+  logToFile('roPresence: Stopping. Exiting cmd in 10 seconds.')
   RPC.destroy()
   setTimeout(() => {
     process.exit()
   }, 10e3)
 }
+
+ExpressApp.get('/killRoPresence', function (req, res) {
+  res.sendFile(Path.join(__dirname + '/pages/shuttingdown.html'))
+  exitRoPresence()
+})
 
 async function setActivity () {
   if (!RPC) {
@@ -85,7 +104,7 @@ async function setActivity () {
   }
 
   if (error) {
-    console.log('roPresence API Error - roPresence ran into an error and had to stop. This error is mainly due to a remote API problem.\nPlease restart the presence.')
+    logToFile('roPresence API Error - roPresence ran into an error and had to stop. This error is mainly due to a remote API problem.\nPlease restart the presence.')
     Notifier.notify({
       title: 'roPresence API Error',
       message: 'roPresence ran into an error and had to stop.',
@@ -159,14 +178,14 @@ async function setActivity () {
 
   if (loaded === false) {
     loaded = true
-    console.log('roPresence Loaded - Glad to see you, ' + robloxUser.robloxUsername + '! Your presence will be updated once you interact with ROBLOX.')
+    logToFile('roPresence Loaded - Glad to see you, ' + robloxUser.robloxUsername + '! Your presence will be updated once you interact with ROBLOX.')
     Notifier.notify({
       title: 'roPresence Loaded',
       message: 'Glad to see you, ' + robloxUser.robloxUsername + '!\nYour presence will be updated once you interact with ROBLOX.',
       sound: true,
       icon: Path.join(__dirname, 'img/yes.png')
     })
-    console.log('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.\nIf you unverify, roPresence will stop showing the Discord Presence and ask you to verify yourself again.\n\nTo keep the Discord Presence, DO NOT close this window. You can close it when you will be done.')
+    logToFile('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.\nIf you unverify, roPresence will stop showing the Discord Presence and ask you to verify yourself again.\n\nTo keep the Discord Presence, DO NOT close this window. You can close it when you will be done.')
   }
 }
 
@@ -196,7 +215,7 @@ async function robloxVerify () {
     busyRetrying = true
     RPC.clearActivity()
     
-    console.log('roPresence Error - To use roPresence, please link your Discord account with verify.eryn.io')
+    logToFile('roPresence Error - To use roPresence, please link your Discord account with verify.eryn.io')
     Notifier.notify({
       title: 'roPresence Error',
       message: 'To use roPresence, please link your Discord account with verify.eryn.io\n\nClick this bubble to get there.',
@@ -204,11 +223,11 @@ async function robloxVerify () {
       icon: Path.join(__dirname, 'img/no.png'),
       wait: true
     })
-    console.error('RoVer: API returned an error: ' + result.error)
+    logToFile('RoVer: API returned an error: ' + result.error)
     var count = 0
     var retry = setInterval(async () => {
       let result = await getRoverUser()
-      console.log('RoVer: Retrying..')
+      logToFile('RoVer: Retrying..')
       if (result.status === 'ok') {
         loaded = false
         init()
@@ -216,7 +235,7 @@ async function robloxVerify () {
         clearInterval(retry)
       } else {
         if (count === 25) {
-          console.log('roPresence Error - We couldn\'t find your ROBLOX account in time, roPresence has been stopped. Relaunch it to retry.')
+          logToFile('roPresence Error - We couldn\'t find your ROBLOX account in time, roPresence has been stopped. Relaunch it to retry.')
           Notifier.notify({
             title: 'roPresence Error',
             message: "We couldn't find your ROBLOX account in time, roPresence has been stopped.\nRelaunch it to retry!",
@@ -244,10 +263,14 @@ async function init () {
   }, 15e3)
 }
 
+ExpressApp.listen(3000, function () {
+  logToFile('roPresence Express kill server online.')
+})
+
 RPC.on('ready', async () => {
-  console.log('RPC: Logged in as ' + RPC.user.username + ' (' + RPC.user.id + ').')
+  logToFile('RPC: Logged in as ' + RPC.user.username + ' (' + RPC.user.id + ').')
   init()
 })
 
-console.log('RPC: Attempting to login thru IPC.')
-RPC.login({ clientId }).catch(console.error)
+logToFile('RPC: Attempting to login thru IPC.')
+RPC.login({ clientId }).catch(logToFile)
