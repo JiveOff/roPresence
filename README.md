@@ -19,16 +19,33 @@ The browsing one shows up if you are browsing the ROBLOX Website, the playing on
 ## Prerequisites
 
 - [**node.js**](https://nodejs.org/en/download/current/)
+- [**Discord Desktop App**](https://discordapp.com/download)
 - [Being registered in verify.eryn.io](http://verify.eryn.io/) (roPresence will verify anyways ``¯\_(ツ)_/¯``)
 
 ## Installation (Windows)
 
 - Install [**node.js**](https://nodejs.org/en/download/current/)
 - Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and **unzip** the content in a folder.
-- Run the Install.bat
+- Run the Windows_Install.bat
 - **That's it!** You are done for the installation, you may head to the Usage section.
 
-If you can't run the Install.bat file, do the following:
+If you can't run the Windows_Install.bat file, do the following:
+
+- Open a terminal in the folder, to do that, hold Control + Caps and Right Click in a blank space of the folder to open a Powershell terminal. 
+- Once on the Terminal, run:
+```bash
+# Run this to install all of the dependencies of roPresence.
+$ npm install
+```
+
+## Installation (Other)
+
+- Install [**node.js**](https://nodejs.org/en/download/current/)
+- Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and **unzip** the content in a folder.
+- Run the Other_Install.sh
+- **That's it!** You are done for the installation, you may head to the Usage section.
+
+If you can't run the Other_Install.sh file, do the following:
 
 - Open a terminal in the folder, to do that, hold Control + Caps and Right Click in a blank space of the folder to open a Powershell terminal. 
 - Once on the Terminal, run:
@@ -39,7 +56,9 @@ $ npm install
 
 ## Usage (Windows)
 
-- Once roPresence is fully installed *(refer to the Installation part)*, just double click the **LaunchPresence.bat** and you're done, the Discord Rich Presence will show up! 
+- Once roPresence is fully installed *(refer to the Installation part)*, just open the **Windows_Presence.bat** file and you're done, the Discord Rich Presence will show up! 
+
+- You can also launch roPresence in the background by opening the **Windows_BackgroundPresence.vbs** file.
 
 - *You can still use a terminal in the folder to launch roPresence:*
 ```bash
@@ -47,6 +66,19 @@ $ npm install
 $ npm start
 ```
 
+- To stop roPresence, just close the terminal. If you launched it in the background, click [**here**](https://127.0.0.1:3000/killRoPresence) or browse to https://127.0.0.1:3000/killRoPresence
+
+## Usage (Other)
+
+- Once roPresence is fully installed *(refer to the Installation part)*, just open the **Other_Presence.sh** file and you're done, the Discord Rich Presence will show up! 
+
+- *You can still use a terminal in the folder to launch roPresence:*
+```bash
+# Run this to launch roPresence.
+$ npm start
+```
+
+- To stop roPresence, just close the terminal. If you launched it in the background, click [**here**](https://127.0.0.1:3000/killRoPresence) or browse to https://127.0.0.1:3000/killRoPresence
 
 ## Frequently Asked Questions
 
