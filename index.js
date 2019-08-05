@@ -171,7 +171,11 @@ async function setActivity () {
   }
 
   rpcInfo.largeImageKey = 'logo'
-  rpcInfo.largeImageText = 'ROBLOX: ' + robloxUser.robloxUsername
+  if(Config.showUsernameInPresence === true) {
+    rpcInfo.largeImageText = 'ROBLOX: ' + robloxUser.robloxUsername
+  } else {
+    rpcInfo.largeImageText = 'Hidden user'
+  }
   rpcInfo.instance = false
 
   RPC.setActivity(rpcInfo)

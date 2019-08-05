@@ -1,3 +1,4 @@
 {
-    "showTips": true
+    "showTips": true,
+    "showUsernameInPresence": true
 }
