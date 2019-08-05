@@ -12,7 +12,7 @@
     "discord-rpc": "^3.0.2",
     "express": "^4.17.1",
     "node-fetch": "^2.6.0",
-    "node-notifier": "^5.4.0",
+    "node-notifier": "^5.4.1",
     "open": "^6.4.0",
     "request": "^2.88.0"
   }
