@@ -14,7 +14,6 @@ const ExpressApp = Express()
 const clientId = '595172822410592266'
 
 const RPC = new DiscordRPC.Client({ transport: 'ipc' })
-console.log("Yeet")
 
 var robloxUser = {}
 
