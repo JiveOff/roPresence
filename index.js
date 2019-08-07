@@ -202,7 +202,7 @@ async function getRoverUser () {
 Notifier.on('click', function (notifyObject, opt) {
   if (opt.title === 'roPresence Error') {
 	Open('https://verify.eryn.io/')
-  } else if (opt.title === "roPresence Discord Error") {
+  } else if (opt.title === "roPresence Discord Error" && Config.attemptToOpenDiscordOnConnectionFailurePopupClick === true) {
 	Open('Discord.exe') // Leaving this as a "might work, not guaranteed" solution.
   } else if (opt.title === 'roPresence Tip') {
     Open('https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
@@ -284,14 +284,17 @@ RPC.login({ clientId }).catch((str) => {
 	logToFile(str)
 	logToFile("Failed to connect to Discord! Make sure that Discord has been launched.")
 
-	Notifier.notify({
-		title: 'roPresence Discord Error',
-		message: "Failed to connect to Discord! Make sure that Discord has been launched, then launch roPresence again.",
-		sound: true,
-		icon: Path.join(__dirname, 'img/no.png'),
-		wait: true
-	})
-
-	logToFile("Exiting in 10 seconds...")
-	setInterval(() => {process.exit()}, 10000)
+	if (Config.attemptToOpenDiscordOnConnectionFailure === true) {
+		Open("Discord.exe")
+	} else {
+		Notifier.notify({
+			title: 'roPresence Discord Error',
+			message: "Failed to connect to Discord! Make sure that Discord has been launched and that you're logged in, then launch roPresence again.",
+			sound: true,
+			icon: Path.join(__dirname, 'img/no.png'),
+			wait: true
+		})
+		logToFile("Exiting in 10 seconds...")
+		setInterval(() => {process.exit()}, 10000)
+	}
 })

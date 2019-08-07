@@ -1,4 +1,8 @@
 {
-    "showTips": true,
-    "showUsernameInPresence": true
+	"attemptToOpenDiscordOnConnectionFailurePopupClick": false, // Only known to work on Windows, and might not work at all.
+	// When the app fails to connect to Discord, clicking the notification would attempt to launch discord.
+
+	"attemptToOpenDiscordOnConnectionFailure":false, // Same as above, but automatic. Overrides the configuration above and only shows 
+	"showTips": true,
+	"showUsernameInPresence": true
 }
