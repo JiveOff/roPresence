@@ -9,6 +9,32 @@ const Open = require('open')
 const Config = require('./config.json')
 const File = require('fs')
 const Express = require('express')
+const thread = require('child_process')
+
+async function logToFile(text) {
+	console.log(text)
+	File.appendFile('roPresence_log.txt', '\n' + text, (err) => {  
+	  if (err) throw err
+	})
+}
+
+if (!process.env.terminal){
+	var t = thread.spawnSync(process.argv[0], [process.argv[1]], {
+		env: { terminal: "0" },
+		stdio: [process.stdin, process.stdout, process.stderr],
+	})
+
+	if (t.status === 1){
+		thread.spawnSync(process.argv[0], [process.argv[1]], {
+			env: { terminal: "1" },
+			stdio: [process.stdin, process.stdout, process.stderr],
+		})
+
+		process.exit()
+	} else {
+		process.exit()
+	}
+}
 
 const ExpressApp = Express()
 const clientId = '595172822410592266'
@@ -26,16 +52,13 @@ var tipSuccess = false
 
 var busyRetrying = false
 
-async function logToFile(text) {
-  console.log(text)
-  File.appendFile('roPresence_log.txt', '\r\n' + text, (err) => {  
-    if (err) throw err
-  })
+if (process.env.terminal === "0"){
+	var launchstr =  '*** roPresence Launched: ' + new Date().toString() + ' ***'
+	logToFile("\n " + "*".repeat(launchstr.length) + "\n " + launchstr + "\n " + "*".repeat(launchstr.length) + "\n")
+	logToFile(" * Non-terminal slave process launched.")
+} else if (process.env.terminal === "1") {
+	logToFile(" * Terminal slave process launched.")
 }
-
-File.writeFile('roPresence_log.txt', '', (err) => {  
-  if (err) throw err
-})
 
 async function getROBLOXPresence () {
   try {
@@ -202,7 +225,7 @@ async function getRoverUser () {
 Notifier.on('click', function (notifyObject, opt) {
   if (opt.title === 'roPresence Error') {
 	Open('https://verify.eryn.io/')
-  } else if (opt.title === "roPresence Discord Error" && Config.attemptToOpenDiscordOnConnectionFailurePopupClick === true) {
+  } else if (opt.title === "roPresence Discord Error" && Config.attemptToOpenDiscordOnConnectionFailurePopupClick === true && process.env.terminal !== "1") {
 	Open('Discord.exe') // Leaving this as a "might work, not guaranteed" solution.
   } else if (opt.title === 'roPresence Tip') {
     Open('https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
@@ -273,34 +296,25 @@ ExpressApp.listen(3000, function () {
   logToFile('roPresence Express kill server online.')
 })
 
+logToFile('RPC: Attempting to login through IPC.')
 RPC.on('ready', async () => {
-  logToFile('RPC: Logged in as ' + RPC.user.username + ' (' + RPC.user.id + ').')
-  init()
+	logToFile('RPC: Logged in as ' + RPC.user.username + ' (' + RPC.user.id + ').')
+	init()
 })
 
-logToFile('RPC: Attempting to login thru IPC.')
-
-RPC.login({ clientId }).catch((str) => {
+RPC.login({clientId}).catch((str) => {
 	logToFile(str)
 	logToFile("Failed to connect to Discord!")
 
-	if (Config.attemptToOpenDiscordOnConnectionFailure === true) {
+	if (Config.attemptToOpenDiscordOnConnectionFailure === true && process.env.terminal !== "1") {
 		logToFile("Attempting to forcefully open Discord...")
 		Open("Discord.exe", {wait: "true"})
+
 		setInterval(() => {
-			RPC.login({ clientId }).catch((str) => {
-					Notifier.notify({
-						title: 'roPresence Fatal Discord Error',
-						message: "Failed to connect to Discord! Make sure that Discord has been launched and that you're logged in, then launch roPresence again.",
-						sound: true,
-						icon: Path.join(__dirname, 'img/no.png'),
-						wait: true
-					})
-					logToFile("Make sure that Discord has been launched and that you're logged in, then launch roPresence again.")
-					logToFile("Exiting in 10 seconds...")
-					setInterval(() => {process.exit()}, 10000)
-				}
-			)
+			// Restart process and pass in a flag to give up after first attempt
+			logToFile("Restarting process with terminal flag...")
+
+			process.exit(1) // Failure, ask master process to launch terminal process.
 		}, 10e3)
 	} else {
 		Notifier.notify({
@@ -311,7 +325,7 @@ RPC.login({ clientId }).catch((str) => {
 			wait: true
 		})
 		logToFile("Make sure that Discord has been launched and that you're logged in, then launch roPresence again.")
-		logToFile("Exiting in 10 seconds...")
-		setInterval(() => {process.exit()}, 10000)
+		logToFile("Exiting in 5 seconds...")
+		setInterval(() => {process.exit()}, 5000)
 	}
 })
