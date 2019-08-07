@@ -282,10 +282,26 @@ logToFile('RPC: Attempting to login thru IPC.')
 
 RPC.login({ clientId }).catch((str) => {
 	logToFile(str)
-	logToFile("Failed to connect to Discord! Make sure that Discord has been launched.")
+	logToFile("Failed to connect to Discord!")
 
 	if (Config.attemptToOpenDiscordOnConnectionFailure === true) {
-		Open("Discord.exe")
+		logToFile("Attempting to forcefully open Discord...")
+		Open("Discord.exe", {wait: "true"})
+		setInterval(() => {
+			RPC.login({ clientId }).catch((str) => {
+					Notifier.notify({
+						title: 'roPresence Fatal Discord Error',
+						message: "Failed to connect to Discord! Make sure that Discord has been launched and that you're logged in, then launch roPresence again.",
+						sound: true,
+						icon: Path.join(__dirname, 'img/no.png'),
+						wait: true
+					})
+					logToFile("Make sure that Discord has been launched and that you're logged in, then launch roPresence again.")
+					logToFile("Exiting in 10 seconds...")
+					setInterval(() => {process.exit()}, 10000)
+				}
+			)
+		}, 10e3)
 	} else {
 		Notifier.notify({
 			title: 'roPresence Discord Error',
@@ -294,6 +310,7 @@ RPC.login({ clientId }).catch((str) => {
 			icon: Path.join(__dirname, 'img/no.png'),
 			wait: true
 		})
+		logToFile("Make sure that Discord has been launched and that you're logged in, then launch roPresence again.")
 		logToFile("Exiting in 10 seconds...")
 		setInterval(() => {process.exit()}, 10000)
 	}
