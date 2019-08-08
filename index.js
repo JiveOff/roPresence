@@ -9,7 +9,9 @@ const Open = require('open')
 const Config = require('./config.json')
 const File = require('fs')
 const Express = require('express')
+
 const thread = require('child_process')
+const self = require('./package.json');
 
 async function logToFile(text) {
 	console.log(text)
@@ -53,7 +55,7 @@ var tipSuccess = false
 var busyRetrying = false
 
 if (process.env.terminal === "0"){
-	var launchstr =  '*** roPresence Launched: ' + new Date().toString() + ' ***'
+	var launchstr =  `*** roPresence v${self.version} Launched: ${new Date().toString()} ***`
 	logToFile("\n " + "*".repeat(launchstr.length) + "\n " + launchstr + "\n " + "*".repeat(launchstr.length) + "\n")
 	logToFile(" * Non-terminal slave process launched.")
 } else if (process.env.terminal === "1") {
