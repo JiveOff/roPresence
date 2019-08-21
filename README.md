@@ -16,6 +16,53 @@ roPresence is a Node.js program that allows you to show your current ROBLOX stat
 This integration shows 3 different states: Browsing, Playing, Creating.
 The browsing one shows up if you are browsing the ROBLOX Website, the playing one shows up if you are playing a game on ROBLOX *(you will maybe need to update your privacy settings if needed to show the game details. Everything is explained below)* and the creating one if you are building on ROBLOX Studio, it also shows the name of your current project.
 
+## NEW!
+
+You can now use roPresence without installing anything, just download the binary file in the release section!
+Everything under the prerequisites category is here if you want to use the source code instead of the binaries.
+
+## Frequently Asked Questions
+
+This part can be updated anytime with the questions I will receive.
+
+- **My game name is not shown, but I want to show it, what do I do?** Check below.
+
+- **Does it support MacOS and Linux?**
+Probably. Windows is better to me. :eyes:
+
+- **roPresence is always asking me to follow their bacon hair account to show my game name, but I don't want that!! What do I do?**
+You can hide this tip by just opening the ``config.json`` file in an editor like Notepad or Notepad++ and turn off the ``showTips`` option by replacing ``true`` by ``false``.
+
+- **I'm having an error, where do I report it?**
+On our [issue page](https://github.com/JiveOff/roPresence/issues)!
+
+- **I want to contribute, how can I do so?**
+Just push a pull request and I will analyze it asap.
+
+- **Why do you use an external API?**
+The ROBLOX Presences API endpoint requires an user and I prefer to not mess with the .ROBLOSECURITY cookies in the client.
+
+- **Why does my Rich Presence take so long to update?**
+Discord has a 15 seconds limit between Rich Presences updates.
+
+- **Why does roPresence crash because of an API error?**
+The remote API is maybe down or restarted for an update, relaunch roPresence to see if it was a simple restart.
+
+- **Can I become friends with roPresence_bot?**
+No.
+
+## Making the game name show
+
+You will have to update your Privacy settings to make it public or just like the following:
+
+<img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
+
+and then follow the roPresence ROBLOX Account (https://www.roblox.com/users/1143479593/profile) like the following:
+
+<img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Following.png" alt="Following"/>
+
+Tada! Your presence will show your current game/ROBLOX Studio project!
+
 ## Prerequisites
 
 - [**node.js**](https://nodejs.org/en/download/current/)
@@ -79,48 +126,6 @@ $ npm start
 ```
 
 - To stop roPresence, just close the terminal. If you launched it in the background, click [**here**](http://127.0.0.1:3000/killRoPresence) or browse to http://127.0.0.1:3000/killRoPresence
-
-## Frequently Asked Questions
-
-This part can be updated anytime with the questions I will receive.
-
-- **My game name is not shown, but I want to show it, what do I do?** Check below.
-
-- **Does it support MacOS and Linux?**
-Probably. Windows is better to me. :eyes:
-
-- **roPresence is always asking me to follow their bacon hair account to show my game name, but I don't want that!! What do I do?**
-You can hide this tip by just opening the ``config.json`` file in an editor like Notepad or Notepad++ and turn off the ``showTips`` option by replacing ``true`` by ``false``.
-
-- **I'm having an error, where do I report it?**
-On our [issue page](https://github.com/JiveOff/roPresence/issues)!
-
-- **I want to contribute, how can I do so?**
-Just push a pull request and I will analyze it asap.
-
-- **Why do you use an external API?**
-The ROBLOX Presences API endpoint requires an user and I prefer to not mess with the .ROBLOSECURITY cookies in the client.
-
-- **Why does my Rich Presence take so long to update?**
-Discord has a 15 seconds limit between Rich Presences updates.
-
-- **Why does roPresence crash because of an API error?**
-The remote API is maybe down or restarted for an update, relaunch roPresence to see if it was a simple restart.
-
-- **Can I become friends with roPresence_bot?**
-No.
-
-## Making the game name show
-
-You will have to update your Privacy settings to make it public or just like the following:
-
-<img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
-
-and then follow the roPresence ROBLOX Account (https://www.roblox.com/users/1143479593/profile) like the following:
-
-<img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Following.png" alt="Following"/>
-
-Tada! Your presence will show your current game/ROBLOX Studio project!
 
 ## License
 
