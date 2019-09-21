@@ -4,6 +4,6 @@
 
 	"showTips": true,
 	"showUsernameInPresence": true,
-	"showOfflinePresence": false,
-	"showWebsitePresence": false
+	"showOfflinePresence": true,
+	"showWebsitePresence": true
 }
