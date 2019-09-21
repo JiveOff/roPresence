@@ -3,5 +3,7 @@
 	"attemptToOpenDiscordOnConnectionFailure": false,
 
 	"showTips": true,
-	"showUsernameInPresence": true
+	"showUsernameInPresence": true,
+	"showOfflinePresence": false,
+	"showWebsitePresence": false
 }
