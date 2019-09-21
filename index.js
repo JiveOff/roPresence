@@ -65,7 +65,7 @@ if (process.env.terminal === '0') {
 
 async function getROBLOXPresence () {
   try {
-    let data = await Fetch('http://51.75.204.210:3000/presences/' + robloxUser.robloxId)
+    let data = await Fetch('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
     let main = await data.json()
     return main
   } catch (e) {
