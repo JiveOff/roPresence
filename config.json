@@ -1,7 +1,4 @@
 {
-	"attemptToOpenDiscordOnConnectionFailurePopupClick": false,
-	"attemptToOpenDiscordOnConnectionFailure": false,
-
 	"showTips": true,
 	"showUsernameInPresence": true
 }
