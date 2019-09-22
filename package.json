@@ -4,16 +4,16 @@
   "description": "A Discord Rich Presence using the ROBLOX Presence API.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "nw"
   },
   "author": "JiveOff",
   "license": "MIT",
   "dependencies": {
     "child_process": "^1.0.2",
     "discord-rpc": "^3.1.0",
-    "express": "^4.17.1",
     "node-fetch": "^2.6.0",
     "node-notifier": "^5.4.3",
+    "nw": "^0.41.2",
     "open": "^6.4.0",
     "request": "^2.88.0"
   }
