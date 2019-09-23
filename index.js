@@ -21,15 +21,23 @@ async function logToFile (text) {
   })
 }
 
+//TODO: Remove this once we're sure it works
+const env = { terminal: process.env.terminal, XDG_RUNTIME_DIR: process.env.XDG_RUNTIME_DIR, TMPDIR: process.env.TMPDIR, TMP: process.env.TMP, TEMP: process.env.TEMP }
+logToFile(env)
+
 if (!process.env.terminal) {
   var t = thread.spawnSync(process.argv[0], [process.argv[1]], {
-    env: { terminal: '0' },
+    // Copy MacOS/Unix env stats to the child processes. This might fix (or not) some issues with it not working on mac.
+
+    env: { terminal: '0', XDG_RUNTIME_DIR: process.env.XDG_RUNTIME_DIR, TMPDIR: process.env.TMPDIR, TMP: process.env.TMP, TEMP: process.env.TEMP },
     stdio: [process.stdin, process.stdout, process.stderr]
   })
 
   if (t.status === 1) {
     thread.spawnSync(process.argv[0], [process.argv[1]], {
-      env: { terminal: '1' },
+      // Copy MacOS/Unix env stats to the child processes. This might fix (or not) some issues with it not working on mac.
+
+      env: { terminal: '1', XDG_RUNTIME_DIR: process.env.XDG_RUNTIME_DIR, TMPDIR: process.env.TMPDIR, TMP: process.env.TMP, TEMP: process.env.TEMP },
       stdio: [process.stdin, process.stdout, process.stderr]
     })
 
@@ -65,8 +73,8 @@ if (process.env.terminal === '0') {
 
 async function getROBLOXPresence () {
   try {
-    let data = await Fetch('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
-    let main = await data.json()
+    const data = await Fetch('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
+    const main = await data.json()
     return main
   } catch (e) {
     logToFile(e)
@@ -113,7 +121,7 @@ function exitRoPresence () {
 }
 
 ExpressApp.get('/killRoPresence', function (req, res) {
-  res.sendFile(path.join(__dirname + '/pages/shuttingdown.html'))
+  res.sendFile(path.join(__dirname, '/pages/shuttingdown.html'))
   exitRoPresence()
 })
 
@@ -141,7 +149,7 @@ async function setActivity () {
     return
   }
 
-  let presenceInfo = presence.presence.userPresences[0]
+  const presenceInfo = presence.presence.userPresences[0]
 
   var rpcInfo = {}
 
@@ -220,8 +228,8 @@ async function setActivity () {
 }
 
 async function getRoverUser () {
-  let data = await Fetch('https://verify.eryn.io/api/user/' + RPC.user.id)
-  let main = await data.json()
+  const data = await Fetch('https://verify.eryn.io/api/user/' + RPC.user.id)
+  const main = await data.json()
   return main
 }
 
@@ -236,7 +244,7 @@ Notifier.on('click', function (notifyObject, opt) {
 })
 
 async function robloxVerify () {
-  let result = await getRoverUser()
+  const result = await getRoverUser()
   if (result.status === 'ok') {
     robloxUser = result
     setActivity()
@@ -258,7 +266,7 @@ async function robloxVerify () {
     logToFile('RoVer: API returned an error: ' + result.error)
     var count = 0
     var retry = setInterval(async () => {
-      let result = await getRoverUser()
+      const result = await getRoverUser()
       logToFile('RoVer: Retrying..')
       if (result.status === 'ok') {
         loaded = false
@@ -318,7 +326,7 @@ RPC.login({ clientId }).catch((str) => {
       logToFile('Restarting process with terminal flag...')
 
       process.exit(1) // Failure, ask master process to launch terminal process.
-    }, 10e3)
+    }, Config.discordOpenedTimeout * 1000)
   } else {
     Notifier.notify({
       title: 'roPresence Discord Error',
