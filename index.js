@@ -152,15 +152,23 @@ async function setActivity () {
 
   switch (presenceInfo.userPresenceType) {
     case 0:
-      rpcInfo.details = 'Not playing'
-      rpcInfo.state = 'IGN: ' + robloxUser.robloxUsername
-      elapsedLoc = 'Not playing'
+      if (Config.showOfflinePresence === true) {
+        rpcInfo.details = 'Not playing'
+        rpcInfo.state = 'IGN: ' + robloxUser.robloxUsername
+        elapsedLoc = 'Not playing'
+      } else {
+        rpcInfo = null
+      }
       break
     case 1:
-      rpcInfo.startTimestamp = elapsed
-      rpcInfo.details = 'On the website'
-      rpcInfo.smallImageKey = 'online'
-      rpcInfo.smallImageText = 'Browsing the website'
+      if (Config.showWebsitePresence === true) {
+        rpcInfo.startTimestamp = elapsed
+        rpcInfo.details = 'On the website'
+        rpcInfo.smallImageKey = 'online'
+        rpcInfo.smallImageText = 'Browsing the website'
+      } else {
+        rpcInfo = null
+      }
       break
     case 2:
       rpcInfo.startTimestamp = elapsed
@@ -196,15 +204,19 @@ async function setActivity () {
       break
   }
 
-  rpcInfo.largeImageKey = 'logo'
-  if (Config.showUsernameInPresence === true) {
-    rpcInfo.largeImageText = 'ROBLOX: ' + robloxUser.robloxUsername
-  } else {
-    rpcInfo.largeImageText = 'Hidden user'
-  }
-  rpcInfo.instance = false
+  if (rpcInfo) {
+    rpcInfo.largeImageKey = 'logo'
+    if (Config.showUsernameInPresence === true) {
+      rpcInfo.largeImageText = 'ROBLOX: ' + robloxUser.robloxUsername
+    } else {
+      rpcInfo.largeImageText = 'Hidden user'
+    }
+    rpcInfo.instance = false
 
-  RPC.setActivity(rpcInfo)
+    RPC.setActivity(rpcInfo)
+  } else {
+    RPC.clearActivity()
+  }
 
   if (loaded === false) {
     loaded = true
