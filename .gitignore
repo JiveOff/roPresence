@@ -4,3 +4,5 @@ index-linux
 index-macos
 index-win.exe
 .vscode
+SnoreToast
+.gitignore
