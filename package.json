@@ -4,7 +4,7 @@
   "description": "A Discord Rich Presence using the ROBLOX Presence API.",
   "main": "index.js",
   "scripts": {
-    "start": "nw"
+    "start": "electron ./index"
   },
   "author": "JiveOff",
   "license": "MIT",
@@ -16,5 +16,8 @@
     "nw": "^0.41.2",
     "open": "^6.4.0",
     "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "electron": "^6.0.10"
   }
 }

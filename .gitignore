@@ -4,3 +4,4 @@ index-linux
 index-macos
 index-win.exe
 .vscode
+package-lock.json
