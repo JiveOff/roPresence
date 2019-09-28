@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RoPresence - Settings.</title>
+    <title>RoPresence</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Mat
 		erial+Icons">
@@ -112,7 +112,9 @@
     <div id="myModal" class="w3-modal">
         <div class="w3-modal-content w3-animate-bottom w3-padding-large w3-round-large">
             <header>
-                <h4 style="line-height: 1.5;text-align: center !important">RoPresence - Settings.</h4>
+                <h4 style="line-height: 1.5;text-align: center !important">RoPresence.</h4>
+                <h6 class="w3-button" onclick="versionrp()"
+                style="line-height: 1.5;text-align: center !important;display: block !important">Get Version Information</h6>
                 <h6 class="w3-button" onclick="shutdownrp()"
                     style="line-height: 1.5;text-align: center !important;display: block !important">Shut Down
                     roPresence..</h6>
@@ -124,6 +126,9 @@
     document.getElementById('myModal').style.display = 'block'
     async function shutdownrp() {
         window.location.href = "./shuttingdown.html"
+    }
+    async function versionrp() {
+        window.location.href = "./version.html"
     }
 </script>
 

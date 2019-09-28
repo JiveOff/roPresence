@@ -1,147 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>roPresence now shutting down.</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <style type="text/css">
-      body {
-        font-family: 'Varela Round', sans-serif;
-        background: #636363;
-      }
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>roPresence now shutting down.</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style type="text/css">
+    body {
+      font-family: 'Varela Round', sans-serif;
+      background: #636363;
+    }
 
-      .modal-confirm {
-        width: 325px;
-      }
+    .modal-confirm {
+      width: 325px;
+    }
 
-      .modal-confirm .modal-content {
-        padding: 20px;
-        border-radius: 5px;
-        border: none;
-      }
+    .modal-confirm .modal-content {
+      padding: 20px;
+      border-radius: 5px;
+      border: none;
+    }
 
-      .modal-confirm .modal-header {
-        border-bottom: none;
-        position: relative;
-      }
+    .modal-confirm .modal-header {
+      border-bottom: none;
+      position: relative;
+    }
 
-      .modal-confirm h4 {
-        text-align: center;
-        font-size: 26px;
-        margin: 30px 0 -15px;
-      }
+    .modal-confirm h4 {
+      text-align: center;
+      font-size: 26px;
+      margin: 30px 0 -15px;
+    }
 
-      .modal-confirm .form-control,
-      .modal-confirm .btn {
-        min-height: 40px;
-        border-radius: 3px;
-      }
+    .modal-confirm .form-control,
+    .modal-confirm .btn {
+      min-height: 40px;
+      border-radius: 3px;
+    }
 
-      .modal-confirm .close {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-      }
+    .modal-confirm .close {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+    }
 
-      .modal-confirm .modal-footer {
-        border: none;
-        text-align: center;
-        border-radius: 5px;
-        font-size: 13px;
-      }
+    .modal-confirm .modal-footer {
+      border: none;
+      text-align: center;
+      border-radius: 5px;
+      font-size: 13px;
+    }
 
-      .modal-confirm .icon-box {
-        color: #fff;
-        position: absolute;
-        margin: 0 auto;
-        left: 0;
-        right: 0;
-        top: -70px;
-        width: 95px;
-        height: 95px;
-        border-radius: 50%;
-        z-index: 9;
-        background: #82ce34;
-        padding: 15px;
-        text-align: center;
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-      }
+    .modal-confirm .icon-box {
+      color: #fff;
+      position: absolute;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      top: -70px;
+      width: 95px;
+      height: 95px;
+      border-radius: 50%;
+      z-index: 9;
+      background: #82ce34;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    }
 
-      .modal-confirm .icon-box i {
-        font-size: 58px;
-        position: relative;
-        top: 3px;
-      }
+    .modal-confirm .icon-box i {
+      font-size: 58px;
+      position: relative;
+      top: 3px;
+    }
 
-      .modal-confirm.modal-dialog {
-        margin-top: 80px;
-      }
+    .modal-confirm.modal-dialog {
+      margin-top: 80px;
+    }
 
-      .modal-confirm .btn {
-        color: #fff;
-        border-radius: 4px;
-        background: #82ce34;
-        text-decoration: none;
-        transition: all 0.4s;
-        line-height: normal;
-        border: none;
-      }
+    .modal-confirm .btn {
+      color: #fff;
+      border-radius: 4px;
+      background: #82ce34;
+      text-decoration: none;
+      transition: all 0.4s;
+      line-height: normal;
+      border: none;
+    }
 
-      .modal-confirm .btn:hover,
-      .modal-confirm .btn:focus {
-        background: #6fb32b;
-        outline: none;
-      }
+    .modal-confirm .btn:hover,
+    .modal-confirm .btn:focus {
+      background: #6fb32b;
+      outline: none;
+    }
 
-      .trigger-btn {
-        display: inline-block;
-        margin: 100px auto;
-      }
+    .trigger-btn {
+      display: inline-block;
+      margin: 100px auto;
+    }
+  </style>
+</head>
 
-    </style>
-  </head>
-
-  <body>
-    <div id="myModal" class="w3-modal">
-      <div class="w3-modal-content w3-animate-bottom w3-padding-large w3-round-large modal-dialog modal-confirm">
-          <div class="icon-box">
-            <i class="material-icons">&#xE876;</i>
-          </div>
-          <h4 style="line-height: 1.5;text-align: center !important">Thank you!</h4>
-					<br>
-          <p style="text-align: center !important">roPresence is now shutting down.<br />Thank you for using it!<br>This window will close in ten seconds.</p>
+<body>
+  <div id="myModal" class="w3-modal">
+    <div class="w3-modal-content w3-animate-bottom w3-padding-large w3-round-large modal-dialog modal-confirm">
+      <div class="icon-box">
+        <i class="material-icons">&#xE876;</i>
       </div>
+      <h4 style="line-height: 1.5;text-align: center !important">Thank you!</h4>
+      <br>
+      <p style="text-align: center !important">roPresence is now shutting down.<br />Thank you for using it!<br>This
+        window will close in ten seconds.</p>
     </div>
-  </body>
-  <script type="text/javascript">
-	   document.getElementById('myModal').style.display = 'block'
-	   const DiscordRPC = require('discord-rpc')
-        const Fetch = require('node-fetch')
-        const Notifier = require('node-notifier')
-        const Path = require('path')
-        const Open = require('open')
-        const Config = require('../config.json')
-        const File = require('fs')
-        const clientId = '595172822410592266'
-        const RPC = new DiscordRPC.Client({
-            transport: 'ipc'
-        })
-        async function logToFile(text) {
-            console.log(text)
-            File.appendFile('../roPresence_log.txt', '\r\n' + text, (err) => {
-                if (err) throw err
-            })
-        }
-        logToFile('roPresence: Stopping. Exiting cmd in 10 seconds.')
-        RPC.destroy()
-        setTimeout(() => {
-            process.exit()
-        }, 10e3)
-  </script>
-
+  </div>
+</body>
+<script>
+  const DiscordRPC = require('discord-rpc')
+  const {
+    app,
+    BrowserWindow
+  } = require('electron')
+  const File = require('fs')
+  const RPC = new DiscordRPC.Client({
+    transport: 'ipc'
+  })
+  async function logToFile(text) {
+    console.log(text)
+    File.appendFile('../roPresence_log.txt', '\r\n' + text, (err) => {
+      if (err) throw err
+    })
+  }
+  logToFile('roPresence: Stopping. Exiting cmd in 10 seconds.')
+  RPC.destroy()
+  document.getElementById('myModal').style.display = 'block'
+  setTimeout(() => {
+    app.quit()
+  }, 10e3)
+</script>
 </html>

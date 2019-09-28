@@ -76,7 +76,7 @@ async function logToFile (text) {
   })
 }
 
-if (!process.env.terminal) {
+/*if (!process.env.terminal) {
   var t = thread.spawnSync(process.argv[0], [process.argv[1]], {
     env: {
       terminal: '0'
@@ -94,7 +94,7 @@ if (!process.env.terminal) {
   } else {
     process.exit()
   }
-}
+}*/
 
 const clientId = '595172822410592266'
 

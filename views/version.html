@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome - roPresence.</title>
+    <title>RoPresence - Version</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Mat
 		erial+Icons">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-		
+
     <style type="text/css">
-      body {
+        body {
             font-family: 'Varela Round', sans-serif;
             background: #636363;
         }
@@ -105,25 +105,37 @@
             display: inline-block;
             margin: 100px auto;
         }
+        h6 {
+            line-height: 1.5;
+            text-align: center !important;
+            display: block !important;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="myModal" class="w3-modal">
-      <div class="w3-modal-content w3-animate-bottom w3-padding-large w3-round-large">
-        <header>
-          <h4 style="line-height: 1.5;text-align: center !important">Welcome to RoPresence!</h4>
-					<h6 class="w3-button" onclick="start()" style="line-height: 1.5;text-align: center !important;display: block !important">Click here to continue.</h6>
-        </header>
+        <div class="w3-modal-content w3-animate-bottom w3-padding-large w3-round-large">
+            <header>
+                <h4 style="line-height: 1.5;text-align: center !important">RoPresence - Version.</h4>
+                <h6><script>
+                var os = require("os")
+                var self = require("../package.json")
+                var version = os.type
+                if (version == "Windows_NT") version = "Windows"
+                if (version == "Darwin") version = "Windows"
+                // Linux does it automatically.
+                document.write(`You are using Node.js ${process.versions.node}, Chromium ${process.versions.chrome}, Electron ${process.versions.electron} on ${version} with RoPresence version ${self.version}`)</script></h6>
+                <h6 class="w3-button" onclick="shutdownrp()">Back</h6>
+            </header>
         </div>
     </div>
-		
-  </body>
-  <script type="text/javascript">
+</body>
+<script type="text/javascript">
     document.getElementById('myModal').style.display = 'block'
-    async function start() {
-			window.location.href = "./settings.html"
-		}
-  </script>
+    async function shutdownrp() {
+        window.location.href = "./settings.html"
+    }
+</script>
 
 </html>
