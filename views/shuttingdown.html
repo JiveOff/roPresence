@@ -119,26 +119,9 @@
   </div>
 </body>
 <script>
-  const DiscordRPC = require('discord-rpc')
-  const {
-    app,
-    BrowserWindow
-  } = require('electron')
-  const File = require('fs')
-  const RPC = new DiscordRPC.Client({
-    transport: 'ipc'
-  })
-  async function logToFile(text) {
-    console.log(text)
-    File.appendFile('../roPresence_log.txt', '\r\n' + text, (err) => {
-      if (err) throw err
-    })
-  }
-  logToFile('roPresence: Stopping. Exiting cmd in 10 seconds.')
-  RPC.destroy()
   document.getElementById('myModal').style.display = 'block'
-  setTimeout(() => {
-    app.quit()
-  }, 10e3)
+  var ipcRenderer = require('electron').ipcRenderer;
+  ipcRenderer.send('shutdown', "Client");
 </script>
+
 </html>
