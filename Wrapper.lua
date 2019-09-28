@@ -92,7 +92,7 @@ function roActivity.new(t)
     setmetatable(classSelf, roActivity)
 
     classSelf.Token = t
-	classSelf.Place = game.PlaceId -- Useless to edit as the tokens are bound to your place IDs.
+    classSelf.Place = game.PlaceId -- Useless to edit as the tokens are bound to your place IDs.
 
     return classSelf
 end
@@ -100,8 +100,8 @@ end
 function roActivity:SetUserRichPresence(id, richPresence)
     local dataFields = {
     	["playerId"] = id;
-		["placeId"] = self.Place;
-		["presenceDetails"] = richPresence;
+    	["placeId"] = self.Place;
+    	["presenceDetails"] = richPresence;
     }
     local finaldata = HttpService:JSONEncode(dataFields)
     local response = HttpService:PostAsync(Endpoint .. "updatePresence", finaldata, Enum.HttpContentType.ApplicationJson, false, { Authorization = "Bearer " .. self.Token})
@@ -111,7 +111,7 @@ end
 function roActivity:ClearUserRichPresence(id)
     local dataFields = {
     	["playerId"] = id;
-		["placeId"] = self.Place;
+    	["placeId"] = self.Place;
     }
     local finaldata = HttpService:JSONEncode(dataFields)
     local response = HttpService:PostAsync(Endpoint .. "clearPresence", finaldata, Enum.HttpContentType.ApplicationJson, false, { Authorization = "Bearer " .. self.Token})
@@ -121,7 +121,7 @@ end
 function roActivity:UsingRoActivity(id)
     local dataFields = {
     	["playerId"] = id;
-		["placeId"] = self.Place;
+    	["placeId"] = self.Place;
     }
     local finaldata = HttpService:JSONEncode(dataFields)
     local response = HttpService:PostAsync(Endpoint .. "usingPresence", finaldata, Enum.HttpContentType.ApplicationJson, false, { Authorization = "Bearer " .. self.Token})
