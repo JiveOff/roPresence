@@ -113,11 +113,13 @@
         <div class="w3-modal-content w3-animate-bottom w3-padding-large w3-round-large">
             <header>
                 <h4 style="line-height: 1.5;text-align: center !important">RoPresence</h4>
-                <h6 class="w3-button" onclick="versionrp()"
+                <h6 class="w3-button w3-round" onclick="configrp()"
+                style="line-height: 1.5;text-align: center !important;display: block !important">View Settings</h6>
+                <h6 class="w3-button w3-round" onclick="versionrp()"
                 style="line-height: 1.5;text-align: center !important;display: block !important">Get Version Information</h6>
-                <h6 class="w3-button" onclick="shutdownrp()"
+                <h6 class="w3-button w3-round" onclick="shutdownrp()"
                     style="line-height: 1.5;text-align: center !important;display: block !important">Shut Down
-                    roPresence..</h6>
+                    roPresence</h6>
             </header>
         </div>
     </div>
@@ -126,6 +128,9 @@
     document.getElementById('myModal').style.display = 'block'
     async function shutdownrp() {
         window.location.href = "./shuttingdown.html"
+    }
+    async function configrp() {
+        window.location.href = "./config.html"
     }
     async function versionrp() {
         window.location.href = "./version.html"

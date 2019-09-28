@@ -7,7 +7,7 @@ const {
   app,
   BrowserWindow
 } = require('electron')
-
+const os = require("os")
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -117,13 +117,23 @@ var tipSuccess = false
 
 var busyRetrying = false
 
-if (process.env.terminal === '0') {
+/*if (process.env.terminal === '0') {
   var launchstr = `*** roPresence v${self.version} Launched: ${new Date().toString()} ***`
   logToFile('\n ' + '*'.repeat(launchstr.length) + '\n ' + launchstr + '\n ' + '*'.repeat(launchstr.length) + '\n')
   logToFile(' * Non-terminal slave process launched.')
 } else if (process.env.terminal === '1') {
   logToFile(' * Terminal slave process launched.')
+}*/
+
+var version = os.type
+if (version == "Windows_NT") { // If this is windows then...
+  process.env.terminal = '0'
+} else {
+  process.env.terminal = '1'
 }
+
+var launchstr = `*** roPresence v${self.version} Launched: ${new Date().toString()} ***`
+logToFile('\n ' + '*'.repeat(launchstr.length) + '\n ' + launchstr + '\n ' + '*'.repeat(launchstr.length) + '\n')
 
 async function getROBLOXPresence() {
   try {

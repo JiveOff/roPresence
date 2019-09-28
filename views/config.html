@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RoPresence - Version</title>
+    <title>RoPresence - Settings</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Mat
 		erial+Icons">
@@ -105,11 +105,6 @@
             display: inline-block;
             margin: 100px auto;
         }
-        .h6 {
-            line-height: 1.5;
-            text-align: center !important;
-            display: block !important;
-        }
     </style>
 </head>
 
@@ -117,15 +112,16 @@
     <div id="myModal" class="w3-modal">
         <div class="w3-modal-content w3-animate-bottom w3-padding-large w3-round-large">
             <header>
-                <h4 style="line-height: 1.5;text-align: center !important">RoPresence - Version.</h4>
-                <h6 class="h6"><script>
-                var os = require("os")
-                var self = require("../package.json")
-                var version = os.type
-                if (version == "Windows_NT") version = "Windows"
-                if (version == "Darwin") version = "Mac"
-                // Linux does it automatically.
-                document.write(`Node.js <strong>${process.versions.node}</strong>,<br> Chromium <strong>${process.versions.chrome}</strong>,<br> Electron <strong>${process.versions.electron}</strong> <br>on <strong>${version}</strong> <br>with RoPresence version <strong>${self.version}</strong>`)</script></h6>
+                <h4 style="line-height: 1.5;text-align: center !important">RoPresence - Settings</h4>
+                <h6><script>
+                    var config = require('../config.json')
+                    document.write(`Attempt To Open Discord On Connection Failure (PopupClick): <strong>${config.attemptToOpenDiscordOnConnectionFailurePopupClick}</strong>` +
+                   `<br> Attempt To Open Discord On Connection Failure: <strong>${config.attemptToOpenDiscordOnConnectionFailure}</strong>` +  
+                   `<br> Show Tips: <strong>${config.showTips}</strong>` + 
+                   `<br> Show Username in Presence: <strong>${config.showUsernameInPresence}</strong>` + 
+                   `<br> Show Offline Presence: <strong>${config.showOfflinePresence}</strong>` + 
+                   `<br> Show Website Presence: <strong>${config.showWebsitePresence}</strong>`)
+                </script></h6>
                 <h6 class="w3-button" onclick="shutdownrp()">Back</h6>
             </header>
         </div>
