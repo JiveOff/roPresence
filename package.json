@@ -1,24 +1,26 @@
 {
-  "name": "ropresence",
+  "name": "roPresence",
   "version": "1.0.5",
   "description": "A Discord Rich Presence using the ROBLOX Presence API.",
   "main": "index.js",
   "scripts": {
-    "start": "electron ./index"
+    "start": "electron ./index",
+    "package": "npm run package-mac && npm run package-win && npm run package-linux",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=./img/roPresence-logo.icns ",
+    "package-win": "electron-packager . --overwrite  --platform=win32 --arch=x64 --icon=./img/roPresence-logo.ico",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=./img/roPresence-logo-1024x1024.png"
   },
   "author": "JiveOff",
   "license": "MIT",
   "dependencies": {
-    "child_process": "^1.0.2",
     "discord-rpc": "^3.1.0",
     "node-fetch": "^2.6.0",
     "node-notifier": "^6.0.0",
     "open": "^6.4.0",
-    "os": "^0.1.1",
-    "request": "^2.88.0",
-    "socket.io": "^2.3.0"
+    "os": "^0.1.1"
   },
   "devDependencies": {
-    "electron": "^6.0.10"
+    "electron": "^6.0.10",
+    "electron-packager": "^14.0.6"
   }
 }

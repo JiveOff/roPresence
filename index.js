@@ -17,6 +17,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    icon:  __dirname + '/img/roPresence-logo.ico',
     webPreferences: {
       nodeIntegration: true
     }
@@ -70,7 +71,6 @@ const Config = require('./config.json')
 const File = require('fs')
 const path = require('path')
 
-const thread = require('child_process')
 const self = require('./package.json')
 
 async function logToFile(text) {

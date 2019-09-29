@@ -1,8 +1,8 @@
 node_modules
 roPresence_log.txt
-index-linux
-index-macos
-index-win.exe
 .vscode
 package-lock.json
-package-lock.json
+release-builds
+roPresence-darwin-x64
+roPresence-linux-x64
+roPresence-win32-x64
