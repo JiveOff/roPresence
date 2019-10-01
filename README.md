@@ -18,6 +18,8 @@ The browsing one shows up if you are browsing the ROBLOX Website, the playing on
 
 ## NEW!
 
+An installation video for Windows is out: https://www.youtube.com/watch?v=DrBC7BdlyO4
+
 You can now use roPresence without installing anything, just download the binary file in the release section!
 Everything under the prerequisites category is here if you want to use the source code instead of the binaries.
 
@@ -70,6 +72,8 @@ Tada! Your presence will show your current game/ROBLOX Studio project!
 - [Being registered in verify.eryn.io](http://verify.eryn.io/) (roPresence will verify anyways ``¯\_(ツ)_/¯``)
 
 ## Installation (Windows)
+
+- Installation Video: https://www.youtube.com/watch?v=DrBC7BdlyO4
 
 - Install [**node.js**](https://nodejs.org/en/download/current/)
 - Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and **unzip** the content in a folder.
