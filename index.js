@@ -21,10 +21,6 @@ async function logToFile (text) {
   })
 }
 
-//TODO: Remove this once we're sure it works
-const env = { terminal: process.env.terminal, XDG_RUNTIME_DIR: process.env.XDG_RUNTIME_DIR, TMPDIR: process.env.TMPDIR, TMP: process.env.TMP, TEMP: process.env.TEMP }
-logToFile(env)
-
 if (!process.env.terminal) {
   var t = thread.spawnSync(process.argv[0], [process.argv[1]], {
     // Copy MacOS/Unix env stats to the child processes. This might fix (or not) some issues with it not working on mac.
