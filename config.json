@@ -6,5 +6,7 @@
 
     "##": "These relate to general roPresence settings.",
     "showTips": true,
-    "showUsernameInPresence": true
+    "showUsernameInPresence": true,
+    "showOfflinePresence": true,
+    "showWebsitePresence": true
 }
