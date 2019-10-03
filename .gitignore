@@ -6,3 +6,4 @@ release-builds
 roPresence-darwin-x64
 roPresence-linux-x64
 roPresence-win32-x64
+dist/builder-effective-config.yaml

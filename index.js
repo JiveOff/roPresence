@@ -18,6 +18,7 @@ function createWindow() {
     width: 800,
     height: 600,
     icon:  __dirname + '/img/roPresence-logo.ico',
+    frame: false,
     webPreferences: {
       nodeIntegration: true
     }
