@@ -66,7 +66,7 @@
 	
 		Example code:
 			
-			result = roActivity:SetUserRichPresence(player.UserId)
+			result = roActivity:UsingRoActivity(player.UserId)
 			if(result.success == true) then
 				if(result.using == false) then
 					print(player.UserId .. " is not using roActivity, skipping.")
