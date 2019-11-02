@@ -24,7 +24,7 @@
 		Sets players' rich presences.
 		Returns the result of the request.
 		
-		richPresenceObject is an object that contrains the rich presence properties, you can find all of them here:
+		richPresenceObject is an object that contains the rich presence properties, you can find all of them here:
 			https://discordapp.com/developers/docs/rich-presence/how-to#rich-presence-field-requirements
 			
 		You can't set any images.
