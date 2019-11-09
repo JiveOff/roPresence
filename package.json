@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "electron ./index",
-    "package": "npm run package-mac && npm run package-win && npm run package-linux",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=./img/roPresence-logo.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . --overwrite  --platform=win32 --arch=x64 --icon=./img/roPresence-logo.ico --prune=true --out=release-builds",
     "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=./img/roPresence-logo-1024x1024.png --prune=true --out=release-builds"
@@ -21,6 +20,6 @@
   },
   "devDependencies": {
     "electron": "^7.1.0",
-    "electron-packager": "^14.0.6"
+    "electron-packager": "^14.1.0"
   }
 }
