@@ -6,6 +6,7 @@
   "scripts": {
     "start": "electron ./index",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=./img/roPresence-logo.icns --prune=true --out=release-builds",
+    "package-mac-2": "electron-installer-dmg ./release-builds/roPresence-darwin-x64/roPresence.app roPresence --icon=./img/roPresence-logo.icns --out=release-builds",
     "package-win": "electron-packager . --overwrite  --platform=win32 --arch=x64 --icon=./img/roPresence-logo.ico --prune=true --out=release-builds",
     "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=./img/roPresence-logo-1024x1024.png --prune=true --out=release-builds"
   },
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "electron": "^7.1.0",
-    "electron-packager": "^14.1.0"
+    "electron-installer-dmg": "^3.0.0",
+    "electron-packager": "^14.0.6"
   }
 }
