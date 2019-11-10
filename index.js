@@ -76,9 +76,9 @@ const self = require('./package.json')
 
 async function logToFile(text) {
   console.log(text)
-  File.appendFile('roPresence_log.txt', '\n' + text, (err) => {
+  /*File.appendFile('roPresence_log.txt', '\n' + text, (err) => {
     if (err) throw err
-  })
+  })*/
 }
 
 /*if (!process.env.terminal) {
