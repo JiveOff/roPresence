@@ -17,7 +17,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    icon:  __dirname + '/img/roPresence-logo.ico',
+    icon: __dirname + '/img/roPresence-logo.ico',
     frame: false,
     webPreferences: {
       nodeIntegration: true
