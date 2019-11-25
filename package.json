@@ -23,6 +23,6 @@
   "devDependencies": {
     "electron": "^7.1.2",
     "electron-installer-dmg": "^3.0.0",
-    "electron-packager": "^14.0.6"
+    "electron-packager": "^14.1.1"
   }
 }
