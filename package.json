@@ -21,7 +21,7 @@
     "os": "^0.1.1"
   },
   "devDependencies": {
-    "electron": "^7.1.2",
+    "electron": "^7.1.4",
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^14.1.1"
   }
