@@ -5,5 +5,7 @@
 	"showTips": true,
 	"showUsernameInPresence": true,
 	"showOfflinePresence": false,
-	"showWebsitePresence": true
+	"showWebsitePresence": true,
+
+	"expressPort": 3001
 }

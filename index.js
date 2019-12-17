@@ -8,7 +8,7 @@ const io = require('socket.io-client');
 const Fetch = require('node-fetch')
 const Notifier = require('node-notifier')
 const Open = require('open')
-const Config = require('./config.json')
+const Config = require('./config/config.json')
 const File = require('fs')
 const Express = require('express')
 
@@ -359,7 +359,7 @@ async function init () {
   }, 15e3)
 }
 
-ExpressApp.listen(3000, function () {
+ExpressApp.listen(Config.expressPort, function () {
   logToFile('roPresence Express kill server online.')
 })
 
