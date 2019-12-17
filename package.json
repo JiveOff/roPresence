@@ -1,41 +1,38 @@
 {
-  "name": "ropresence",
-  "version": "2.0.0",
-  "description": "A Discord Rich Presence using the ROBLOX Presence API.",
-  "main": "index.js",
-  "scripts": {
-    "start": "electron ."
-  },
-  "scripts": {
-    "start": "electron ./index",
-    "package-mac": "npm run package-mac-1 && npm run package-mac-2",
-    "package-mac-1": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=./img/roPresence-logo.icns --prune=true --out=release-builds",
-    "package-mac-2": "electron-installer-dmg --overwrite ./release-builds/roPresence-darwin-x64/roPresence.app roPresence --icon=./img/roPresence-logo.icns --out=release-builds",
-    "package-win": "electron-packager . --overwrite  --platform=win32 --arch=x64 --icon=./img/roPresence-logo.ico --prune=true --out=release-builds",
-    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=./img/roPresence-logo-1024x1024.png --prune=true --out=release-builds"
-  },
-  "author": "JiveOff",
-  "license": "MIT",
-  "dependencies": {
-    "discord-rpc": "^3.1.0",
-    "node-fetch": "^2.6.0",
-    "node-notifier": "^6.0.0",
-    "open": "^6.4.0",
-    "os": "^0.1.1",
-    "request": "^2.88.0",
-    "socket.io-client": "^2.3.0"
-  },
-  "devDependencies": {
-    "electron": "^7.1.5",
-    "electron-installer-dmg": "^3.0.0",
-    "electron-packager": "^14.1.1"
-  },
-  "pkg": {
-    "assets": [
-      "pages/*",
-      "config/*",
-      "img/*"
-    ]
-  },
-  "bin": "index.js"
+	"name": "ropresence",
+	"version": "2.0.0",
+	"description": "A Discord Rich Presence using the ROBLOX Presence API.",
+	"main": "index.js",
+	"scripts": {
+		"start": "electron .",
+		"package-mac": "npm run package-mac-1 && npm run package-mac-2",
+		"package-mac-1": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=./img/roPresence-logo.icns --prune=true --out=release-builds",
+		"package-mac-2": "electron-installer-dmg --overwrite ./release-builds/roPresence-darwin-x64/roPresence.app roPresence --icon=./img/roPresence-logo.icns --out=release-builds",
+		"package-win": "electron-packager . --overwrite  --platform=win32 --arch=x64 --icon=./img/roPresence-logo.ico --prune=true --out=release-builds",
+		"package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=./img/roPresence-logo-1024x1024.png --prune=true --out=release-builds"
+	},
+	"author": "JiveOff",
+	"license": "MIT",
+	"dependencies": {
+		"discord-rpc": "^3.1.0",
+		"node-fetch": "^2.6.0",
+		"node-notifier": "^6.0.0",
+		"open": "^6.4.0",
+		"os": "^0.1.1",
+		"request": "^2.88.0",
+		"socket.io-client": "^2.3.0"
+	},
+	"devDependencies": {
+		"electron": "^7.1.5",
+		"electron-installer-dmg": "^3.0.0",
+		"electron-packager": "^14.1.1"
+	},
+	"pkg": {
+		"assets": [
+			"views/*",
+			"config/*",
+			"img/*"
+		]
+	},
+	"bin": "index.js"
 }
