@@ -1,0 +1,12 @@
+{
+    "#": "These are experimental features that might not work everywhere.",
+    "attemptToOpenDiscordOnConnectionFailurePopupClick": false,
+    "attemptToOpenDiscordOnConnectionFailure": false,
+    "discordOpenedTimeout": 30,
+
+    "##": "These relate to general roPresence settings.",
+	"showTips": true,
+	"showUsernameInPresence": true,
+	"showOfflinePresence": true,
+	"showWebsitePresence": true
+}

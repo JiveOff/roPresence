@@ -1,9 +1,8 @@
 node_modules
 roPresence_log.txt
+ropresence-linux
+ropresence-macos
+ropresence-win.exe
 .vscode
-package-lock.json
-release-builds
-roPresence-darwin-x64
-roPresence-linux-x64
-roPresence-win32-x64
-dist/builder-effective-config.yaml
+SnoreToast
+.gitignore
