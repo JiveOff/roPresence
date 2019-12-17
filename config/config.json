@@ -3,7 +3,7 @@
     "attemptToOpenDiscordOnConnectionFailurePopupClick": false,
     "attemptToOpenDiscordOnConnectionFailure": false,
     "discordOpenedTimeout": 30,
-    "expressPort": 3001,
+    "expressPort": 3000,
 
     "##": "These relate to general roPresence settings.",
 	"showTips": true,
