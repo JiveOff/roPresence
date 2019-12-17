@@ -4,7 +4,7 @@
 */
 
 const DiscordRPC = require('discord-rpc')
-const io = require('socket.io-client');
+const io = require('socket.io-client')
 const Fetch = require('node-fetch')
 const Notifier = require('node-notifier')
 const Open = require('open')
@@ -152,7 +152,7 @@ async function setActivity () {
 
   const presenceInfo = presence.presence.userPresences[0]
 
-  if(socketPresence) {
+  if (socketPresence) {
     return
   }
 
@@ -260,46 +260,44 @@ Notifier.on('click', function (notifyObject, opt) {
   }
 })
 
-async function initSocket() {
+async function initSocket () {
+  logToFile('Socket Client: Starting.')
 
-  logToFile("Socket Client: Starting.");
+  var socket = io.connect('http://presences.jiveoff.fr/client/subSocket', {
+    reconnect: true,
+    query: {
+      robloxId: robloxUser.robloxId,
+      robloxUsername: robloxUser.robloxUsername
+    }
+  })
 
-  var socket = io.connect("http://presences.jiveoff.fr/client/subSocket", {
-      reconnect: true,
-      query: {
-          robloxId: robloxUser.robloxId,
-          robloxUsername: robloxUser.robloxUsername
-      }
-  });
+  socket.on('connect', () => {
+    logToFile('Socket Client: Connected to socket, authenticating.')
+  })
 
-  socket.on("connect", () => {
-    logToFile("Socket Client: Connected to socket, authenticating.");
-  });
-  
-  socket.on("disconnect", () => {
-    logToFile("Socket Client: Disconnected from socket, retrying to connect.");
-  });
+  socket.on('disconnect', () => {
+    logToFile('Socket Client: Disconnected from socket, retrying to connect.')
+  })
 
-  socket.on("instanceReady", () => {
-    logToFile("Socket Client: Authenticated to socket, ready.");
-  });
-  
-  socket.on("serverMessage", (msg) => {
-    logToFile("Remote Socket Server: " + msg);
-  });
+  socket.on('instanceReady', () => {
+    logToFile('Socket Client: Authenticated to socket, ready.')
+  })
 
-  socket.on("setPresence", (presence) => {
-    logToFile("Socket Client: Updating socket presence.. ")
+  socket.on('serverMessage', (msg) => {
+    logToFile('Remote Socket Server: ' + msg)
+  })
+
+  socket.on('setPresence', (presence) => {
+    logToFile('Socket Client: Updating socket presence.. ')
     RPC.setActivity(presence)
     socketPresence = true
-  });
+  })
 
-  socket.on("clearPresence", () => {
-    logToFile("Socket Client: Clearing socket presence.. ")
+  socket.on('clearPresence', () => {
+    logToFile('Socket Client: Clearing socket presence.. ')
     setActivity()
     socketPresence = false
-  });
-
+  })
 }
 
 async function robloxVerify () {
