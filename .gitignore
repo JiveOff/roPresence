@@ -1,6 +1,8 @@
 node_modules
 roPresence_log.txt
-index-linux
-index-macos
-index-win.exe
-*.lnk
+ropresence-linux
+ropresence-macos
+ropresence-win.exe
+.vscode
+SnoreToast
+.gitignore

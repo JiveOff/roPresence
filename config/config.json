@@ -3,10 +3,11 @@
     "attemptToOpenDiscordOnConnectionFailurePopupClick": false,
     "attemptToOpenDiscordOnConnectionFailure": false,
     "discordOpenedTimeout": 30,
+    "expressPort": 3001,
 
     "##": "These relate to general roPresence settings.",
-    "showTips": true,
-    "showUsernameInPresence": true,
-    "showOfflinePresence": true,
-    "showWebsitePresence": true
+	"showTips": true,
+	"showUsernameInPresence": true,
+	"showOfflinePresence": false,
+	"showWebsitePresence": true
 }

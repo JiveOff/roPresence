@@ -1,11 +1,14 @@
-// RobloxPresence
-// Coded by JiveOff
+/* roPresence Client
+* Created by JiveOff
+* Thanks to ddavness for the awesome PRs!
+*/
 
 const DiscordRPC = require('discord-rpc')
+const io = require('socket.io-client');
 const Fetch = require('node-fetch')
 const Notifier = require('node-notifier')
 const Open = require('open')
-const Config = require('./config.json')
+const Config = require('./config/config.json')
 const File = require('fs')
 const Express = require('express')
 
@@ -57,6 +60,8 @@ var tipLoc = false
 var loaded = false
 var tipSuccess = false
 
+var socketPresence = false
+
 var busyRetrying = false
 
 if (process.env.terminal === '0') {
@@ -82,7 +87,7 @@ function sendTip () {
   if (tipLoc === false && Config.showTips === true) {
     tipLoc = true
     tipSuccess = false
-    logToFile('roPresence Tip - To show your game name, head to the README.md in your folder or here: https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
+    logToFile('roPresence Tip: To show your game name, head to the README.md in your folder or here: https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
     Notifier.notify({
       title: 'roPresence Tip',
       message: 'Click this notification to know how to make your game name appear.',
@@ -97,7 +102,7 @@ function successTip () {
   if (tipLoc === true && tipSuccess === false) {
     tipSuccess = true
     tipLoc = false
-    logToFile('roPresence - Great! Your game names are now shown on your presence.')
+    logToFile('roPresence: Great! Your game names are now shown on your presence.')
     Notifier.notify({
       title: 'roPresence',
       message: 'Great! Your game names are now shown on your presence.',
@@ -134,7 +139,7 @@ async function setActivity () {
   }
 
   if (error) {
-    logToFile('roPresence API Error - roPresence ran into an error and had to stop. This error is mainly due to a remote API problem.\nPlease restart the presence.')
+    logToFile('roPresence API Error: roPresence ran into an error and had to stop. This error is mainly due to a remote API problem.\nPlease restart the presence.')
     Notifier.notify({
       title: 'roPresence API Error',
       message: 'roPresence ran into an error and had to stop.',
@@ -146,6 +151,10 @@ async function setActivity () {
   }
 
   const presenceInfo = presence.presence.userPresences[0]
+
+  if(socketPresence) {
+    return
+  }
 
   var rpcInfo = {}
 
@@ -224,7 +233,7 @@ async function setActivity () {
 
   if (loaded === false) {
     loaded = true
-    logToFile('roPresence Loaded - Glad to see you, ' + robloxUser.robloxUsername + '! Your presence will be updated once you interact with ROBLOX.')
+    logToFile('roPresence Loaded: Glad to see you, ' + robloxUser.robloxUsername + '! Your presence will be updated once you interact with ROBLOX.')
     Notifier.notify({
       title: 'roPresence Loaded',
       message: 'Glad to see you, ' + robloxUser.robloxUsername + '!\nYour presence will be updated once you interact with ROBLOX.',
@@ -251,6 +260,48 @@ Notifier.on('click', function (notifyObject, opt) {
   }
 })
 
+async function initSocket() {
+
+  logToFile("Socket Client: Starting.");
+
+  var socket = io.connect("http://presences.jiveoff.fr/client/subSocket", {
+      reconnect: true,
+      query: {
+          robloxId: robloxUser.robloxId,
+          robloxUsername: robloxUser.robloxUsername
+      }
+  });
+
+  socket.on("connect", () => {
+    logToFile("Socket Client: Connected to socket, authenticating.");
+  });
+  
+  socket.on("disconnect", () => {
+    logToFile("Socket Client: Disconnected from socket, retrying to connect.");
+  });
+
+  socket.on("instanceReady", () => {
+    logToFile("Socket Client: Authenticated to socket, ready.");
+  });
+  
+  socket.on("serverMessage", (msg) => {
+    logToFile("Remote Socket Server: " + msg);
+  });
+
+  socket.on("setPresence", (presence) => {
+    logToFile("Socket Client: Updating socket presence.. ")
+    RPC.setActivity(presence)
+    socketPresence = true
+  });
+
+  socket.on("clearPresence", () => {
+    logToFile("Socket Client: Clearing socket presence.. ")
+    setActivity()
+    socketPresence = false
+  });
+
+}
+
 async function robloxVerify () {
   const result = await getRoverUser()
   if (result.status === 'ok') {
@@ -263,7 +314,7 @@ async function robloxVerify () {
     busyRetrying = true
     RPC.clearActivity()
 
-    logToFile('roPresence Error - To use roPresence, please link your Discord account with verify.eryn.io')
+    logToFile('roPresence Error: To use roPresence, please link your Discord account with verify.eryn.io')
     Notifier.notify({
       title: 'roPresence Error',
       message: 'To use roPresence, please link your Discord account with verify.eryn.io\n\nClick this bubble to get there.',
@@ -283,7 +334,7 @@ async function robloxVerify () {
         clearInterval(retry)
       } else {
         if (count === 25) {
-          logToFile('roPresence Error - We couldn\'t find your ROBLOX account in time, roPresence has been stopped. Relaunch it to retry.')
+          logToFile('roPresence Error: We couldn\'t find your ROBLOX account in time, roPresence has been stopped. Relaunch it to retry.')
           Notifier.notify({
             title: 'roPresence Error',
             message: "We couldn't find your ROBLOX account in time, roPresence has been stopped.\nRelaunch it to retry!",
@@ -300,7 +351,8 @@ async function robloxVerify () {
 }
 
 async function init () {
-  robloxVerify()
+  await robloxVerify()
+  initSocket()
 
   var busy = setInterval(() => {
     if (busyRetrying) {
@@ -311,7 +363,7 @@ async function init () {
   }, 15e3)
 }
 
-ExpressApp.listen(3000, function () {
+ExpressApp.listen(Config.expressPort, function () {
   logToFile('roPresence Express kill server online.')
 })
 

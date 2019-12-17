@@ -1,6 +1,6 @@
 {
   "name": "ropresence",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "A Discord Rich Presence using the ROBLOX Presence API.",
   "main": "index.js",
   "scripts": {
@@ -15,9 +15,11 @@
     "node-fetch": "^2.6.0",
     "node-notifier": "^6.0.0",
     "open": "^6.4.0",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "socket.io-client": "^2.3.0"
   },
-  "devDependencies": {
-    "standard": "^14.3.1"
-  }
+  "pkg": {
+    "assets": ["pages/*", "config/*", "img/*"]
+  },
+  "bin": "index.js"
 }
