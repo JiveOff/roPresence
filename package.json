@@ -23,7 +23,7 @@
 		"socket.io-client": "^2.3.0"
 	},
 	"devDependencies": {
-		"electron": "^7.1.9",
+		"electron": "^7.1.10",
 		"electron-installer-dmg": "^3.0.0",
 		"electron-packager": "^14.2.0"
 	},
