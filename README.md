@@ -133,4 +133,4 @@ $ npm start
 
 ## License
 
-This project is under the MIT license.
+This project is under the MIT license. [See the LICENSE file](https://github.com/JiveOff/roPresence/blob/master/LICENSE) for more details.
