@@ -27,6 +27,9 @@ Everything under the prerequisites category is here if you want to use the sourc
 
 This part can be updated anytime with the questions I will receive.
 
+- **My presence is not showing!** Check if your game is showing on your Discord preferences:
+<img src="https://i.jiveoff.fr/Tbl4e.png" alt="Discord Settings"/>
+
 - **My game name is not shown, but I want to show it, what do I do?** Check below.
 
 - **Does it support MacOS and Linux?**
