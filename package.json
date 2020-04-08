@@ -16,7 +16,7 @@
 	"dependencies": {
 		"discord-rpc": "^3.1.0",
 		"node-fetch": "^2.6.0",
-		"node-notifier": "^6.0.0",
+		"node-notifier": "^7.0.0",
 		"open": "^7.0.3",
 		"os": "^0.1.1",
 		"request": "^2.88.2",
