@@ -18,10 +18,11 @@ The browsing one shows up if you are browsing the ROBLOX Website, the playing on
 
 ## NEW!
 
-An installation video for Windows is out: https://www.youtube.com/watch?v=DrBC7BdlyO4
+**You can now use roPresence without installing anything, just download the binary file in the release section!**
+https://github.com/JiveOff/roPresence/releases
 
-You can now use roPresence without installing anything, just download the binary file in the release section!
 Everything under the prerequisites category is here if you want to use the source code instead of the binaries.
+An installation video for Windows is out: https://www.youtube.com/watch?v=DrBC7BdlyO4
 
 ## Frequently Asked Questions
 
