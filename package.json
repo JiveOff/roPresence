@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "child_process": "^1.0.2",
-    "discord-rpc": "^3.1.0",
+    "discord-rpc": "^3.1.1",
     "express": "^4.17.1",
     "node-fetch": "^2.6.0",
     "node-notifier": "^7.0.1",
