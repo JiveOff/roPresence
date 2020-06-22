@@ -15,7 +15,7 @@
     "node-fetch": "^2.6.0",
     "node-notifier": "^7.0.1",
     "open": "^7.0.4",
-    "request": "^2.88.0",
+    "request": "^2.88.2",
     "socket.io-client": "^2.3.0"
   },
   "pkg": {
