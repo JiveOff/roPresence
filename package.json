@@ -1,25 +1,30 @@
 {
   "name": "ropresence",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A Discord Rich Presence using the ROBLOX Presence API.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "electron ."
   },
   "author": "JiveOff",
   "license": "MIT",
   "dependencies": {
     "child_process": "^1.0.2",
     "discord-rpc": "^3.1.1",
-    "express": "^4.17.1",
     "node-fetch": "^2.6.0",
-    "node-notifier": "^7.0.1",
     "open": "^7.0.4",
     "request": "^2.88.2",
     "socket.io-client": "^2.3.0"
   },
   "pkg": {
-    "assets": ["pages/*", "config/*", "img/*"]
+    "assets": [
+      "pages/*",
+      "config/*",
+      "img/*"
+    ]
   },
-  "bin": "index.js"
+  "bin": "index.js",
+  "devDependencies": {
+    "electron": "^9.0.5"
+  }
 }

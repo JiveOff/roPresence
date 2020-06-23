@@ -1,55 +1,38 @@
 /* roPresence Client
-* Created by JiveOff
-* Thanks to ddavness for the awesome PRs!
-*/
+ * Created by JiveOff
+ * Thanks to ddavness for the awesome PRs!
+ */
 
 const DiscordRPC = require('discord-rpc')
 const io = require('socket.io-client')
 const Fetch = require('node-fetch')
-const Notifier = require('node-notifier')
+const {
+  app,
+  Menu,
+  Tray,
+  Notification
+} = require('electron')
 const Open = require('open')
 const Config = require('./config/config.json')
 const File = require('fs')
-const Express = require('express')
 
 const path = require('path')
 
 const thread = require('child_process')
 const self = require('./package.json')
 
-async function logToFile (text) {
+async function logToFile(text) {
   console.log(text)
   File.appendFile('roPresence_log.txt', '\n' + text, (err) => {
     if (err) throw err
   })
 }
 
-if (!process.env.terminal) {
-  var t = thread.spawnSync(process.argv[0], [process.argv[1]], {
-    // Copy MacOS/Unix env stats to the child processes. This might fix (or not) some issues with it not working on mac.
-
-    env: { terminal: '0', XDG_RUNTIME_DIR: process.env.XDG_RUNTIME_DIR, TMPDIR: process.env.TMPDIR, TMP: process.env.TMP, TEMP: process.env.TEMP },
-    stdio: [process.stdin, process.stdout, process.stderr]
-  })
-
-  if (t.status === 1) {
-    thread.spawnSync(process.argv[0], [process.argv[1]], {
-      // Copy MacOS/Unix env stats to the child processes. This might fix (or not) some issues with it not working on mac.
-
-      env: { terminal: '1', XDG_RUNTIME_DIR: process.env.XDG_RUNTIME_DIR, TMPDIR: process.env.TMPDIR, TMP: process.env.TMP, TEMP: process.env.TEMP },
-      stdio: [process.stdin, process.stdout, process.stderr]
-    })
-
-    process.exit()
-  } else {
-    process.exit()
-  }
-}
-
-const ExpressApp = Express()
 const clientId = '595172822410592266'
 
-const RPC = new DiscordRPC.Client({ transport: 'ipc' })
+const RPC = new DiscordRPC.Client({
+  transport: 'ipc'
+})
 
 var robloxUser = {}
 
@@ -64,15 +47,7 @@ var socketPresence = false
 
 var busyRetrying = false
 
-if (process.env.terminal === '0') {
-  var launchstr = `*** roPresence v${self.version} Launched: ${new Date().toString()} ***`
-  logToFile('\n ' + '*'.repeat(launchstr.length) + '\n ' + launchstr + '\n ' + '*'.repeat(launchstr.length) + '\n')
-  logToFile(' * Non-terminal slave process launched.')
-} else if (process.env.terminal === '1') {
-  logToFile(' * Terminal slave process launched.')
-}
-
-async function getROBLOXPresence () {
+async function getROBLOXPresence() {
   try {
     const data = await Fetch('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
     const main = await data.json()
@@ -83,37 +58,40 @@ async function getROBLOXPresence () {
   }
 }
 
-function sendTip () {
+function sendTip() {
   if (tipLoc === false && Config.showTips === true) {
     tipLoc = true
     tipSuccess = false
     logToFile('roPresence Tip: To show your game name, head to the README.md in your folder or here: https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
-    Notifier.notify({
+    let myNotification = new Notification({
       title: 'roPresence Tip',
-      message: 'Click this notification to know how to make your game name appear.',
-      sound: true,
+      body: 'Click this notification to know how to make your game name appear.',
       icon: path.join(__dirname, 'img/game.png'),
-      wait: true
+      timeoutType: "never"
     })
+    myNotification.show()
+    myNotification.onclick = () => {
+      Open('https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
+    }
   }
 }
 
-function successTip () {
+function successTip() {
   if (tipLoc === true && tipSuccess === false) {
     tipSuccess = true
     tipLoc = false
     logToFile('roPresence: Great! Your game names are now shown on your presence.')
-    Notifier.notify({
+    let myNotification = new Notification({
       title: 'roPresence',
-      message: 'Great! Your game names are now shown on your presence.',
-      sound: true,
-      icon: path.join(__dirname, 'img/game.png'),
-      wait: true
+      body: 'Great! Your game names are now shown on your presence.',
+      timeoutType: "never",
+      icon: path.join(__dirname, 'img/game.png')
     })
+    myNotification.show()
   }
 }
 
-function exitRoPresence () {
+function exitRoPresence() {
   logToFile('roPresence: Stopping. Exiting cmd in 10 seconds.')
   RPC.destroy()
   setTimeout(() => {
@@ -121,12 +99,9 @@ function exitRoPresence () {
   }, 10e3)
 }
 
-ExpressApp.get('/killRoPresence', function (req, res) {
-  res.sendFile(path.join(__dirname, '/pages/shuttingdown.html'))
-  exitRoPresence()
-})
+// TRAY  BUTTONS;   exitRoPresence()
 
-async function setActivity () {
+async function setActivity() {
   if (!RPC) {
     return
   }
@@ -140,12 +115,12 @@ async function setActivity () {
 
   if (error) {
     logToFile('roPresence API Error: roPresence ran into an error and had to stop. This error is mainly due to a remote API problem.\nPlease restart the presence.')
-    Notifier.notify({
+    let notif = new Notification({
       title: 'roPresence API Error',
-      message: 'roPresence ran into an error and had to stop.',
-      sound: true,
+      body: 'roPresence ran into an error and had to stop.',
       icon: path.join(__dirname, 'img/no.png')
     })
+    notif.show()
     exitRoPresence()
     return
   }
@@ -234,33 +209,57 @@ async function setActivity () {
   if (loaded === false) {
     loaded = true
     logToFile('roPresence Loaded: Glad to see you, ' + robloxUser.robloxUsername + '! Your presence will be updated once you interact with ROBLOX.')
-    Notifier.notify({
+    let myNotification = new Notification({
       title: 'roPresence Loaded',
-      message: 'Glad to see you, ' + robloxUser.robloxUsername + '!\nYour presence will be updated once you interact with ROBLOX.',
-      sound: true,
+      body: 'Glad to see you, ' + robloxUser.robloxUsername + '!\nYour presence will be updated once you interact with ROBLOX.',
       icon: path.join(__dirname, 'img/yes.png')
     })
+    myNotification.show()
     logToFile('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.\nIf you unverify, roPresence will stop showing the Discord Presence and ask you to verify yourself again.\n\nTo keep the Discord Presence, DO NOT close this window. You can close it when you will be done.')
+    const contextMenu = Menu.buildFromTemplate([{
+      label: 'Logged in.',
+      type: 'normal'
+    },
+    {
+      label: 'Roblox: '+robloxUser.robloxUsername,
+      type: 'normal'
+    },
+    {
+      label: 'Discord: '+RPC.user.username+"#"+RPC.user.discriminator,
+      type: 'normal'
+    },
+    {
+      label: 'Item2',
+      type: 'separator'
+    },
+    {
+      label: 'Exit roPresence',
+      type: 'normal',
+      click: function() {
+        exitRoPresence()
+        tray.destroy()
+      }
+    },
+    {
+      label: 'View Logs',
+      type: 'normal',
+      click: function() {
+        Open("./roPresence_log.txt")
+      }
+    }
+  ])
+  tray.setToolTip(`roPresence`)
+  tray.setContextMenu(contextMenu)
   }
 }
 
-async function getRoverUser () {
+async function getRoverUser() {
   const data = await Fetch('https://verify.eryn.io/api/user/' + RPC.user.id)
   const main = await data.json()
   return main
 }
 
-Notifier.on('click', function (notifyObject, opt) {
-  if (opt.title === 'roPresence Error') {
-    Open('https://verify.eryn.io/')
-  } else if (opt.title === 'roPresence Discord Error' && Config.attemptToOpenDiscordOnConnectionFailurePopupClick === true && process.env.terminal !== '1') {
-    Open('Discord.exe') // Leaving this as a "might work, not guaranteed" solution.
-  } else if (opt.title === 'roPresence Tip') {
-    Open('https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
-  }
-})
-
-async function initSocket () {
+async function initSocket() {
   logToFile('Socket Client: Starting.')
 
   var socket = io.connect('http://presences.jiveoff.fr/client/subSocket', {
@@ -300,7 +299,7 @@ async function initSocket () {
   })
 }
 
-async function robloxVerify () {
+async function robloxVerify() {
   const result = await getRoverUser()
   if (result.status === 'ok') {
     robloxUser = result
@@ -313,13 +312,16 @@ async function robloxVerify () {
     RPC.clearActivity()
 
     logToFile('roPresence Error: To use roPresence, please link your Discord account with verify.eryn.io')
-    Notifier.notify({
+    let myNotification = new Notification({
       title: 'roPresence Error',
-      message: 'To use roPresence, please link your Discord account with verify.eryn.io\n\nClick this bubble to get there.',
-      sound: true,
+      body: 'To use roPresence, please link your Discord account with verify.eryn.io\n\nClick this bubble to get there.',
       icon: path.join(__dirname, 'img/no.png'),
-      wait: true
+      timeoutType: "never"
     })
+    myNotification.show()
+    myNotification.onclick = () => {
+      Open('https://verify.eryn.io/')
+    }
     logToFile('RoVer: API returned an error: ' + result.error)
     var count = 0
     var retry = setInterval(async () => {
@@ -333,13 +335,13 @@ async function robloxVerify () {
       } else {
         if (count === 25) {
           logToFile('roPresence Error: We couldn\'t find your ROBLOX account in time, roPresence has been stopped. Relaunch it to retry.')
-          Notifier.notify({
+          let myNotification = new Notification({
             title: 'roPresence Error',
-            message: "We couldn't find your ROBLOX account in time, roPresence has been stopped.\nRelaunch it to retry!",
-            sound: true,
+            body: "We couldn't find your ROBLOX account in time, roPresence has been stopped.\nRelaunch it to retry!",
             icon: path.join(__dirname, 'img/no.png'),
-            wait: true
+            timeoutType: "never"
           })
+          myNotification.show()
           exitRoPresence()
         }
         count = count + 1
@@ -348,7 +350,7 @@ async function robloxVerify () {
   }
 }
 
-async function init () {
+async function init() {
   await robloxVerify()
   initSocket()
 
@@ -360,41 +362,74 @@ async function init () {
     }
   }, 15e3)
 }
+app.whenReady().then(() => {
+  tray = new Tray('./img/roPresence-logo.png')
+  const contextMenu = Menu.buildFromTemplate([{
+      label: 'Logging in.',
+      type: 'normal'
+    },
+    {
+      label: 'Item2',
+      type: 'separator'
+    },
+    {
+      label: 'Exit roPresence',
+      type: 'normal',
+      click: function() {
+        exitRoPresence()
+        tray.destroy()
+      }
+    },
+    {
+      label: 'View Logs',
+      type: 'normal',
+      click: function() {
+        Open("./roPresence_log.txt")
+      }
+    }
+  ])
+  tray.setToolTip(`roPresence`)
+  tray.setContextMenu(contextMenu)
+  logToFile('RPC: Attempting to login through IPC.')
+  RPC.on('ready', async () => {
+    logToFile('RPC: Logged in as ' + RPC.user.username + ' (' + RPC.user.id + ').')
+    init()
+  })
 
-ExpressApp.listen(Config.expressPort, function () {
-  logToFile('roPresence Express kill server online.')
-})
+  RPC.login({
+    clientId
+  }).catch((str) => {
+    logToFile(str)
+    logToFile('Failed to connect to Discord!')
 
-logToFile('RPC: Attempting to login through IPC.')
-RPC.on('ready', async () => {
-  logToFile('RPC: Logged in as ' + RPC.user.username + ' (' + RPC.user.id + ').')
-  init()
-})
+    if (Config.attemptToOpenDiscordOnConnectionFailure === true && process.env.terminal !== '1') {
+      logToFile('Attempting to forcefully open Discord...')
+      Open('Discord.exe', {
+        wait: 'true'
+      })
 
-RPC.login({ clientId }).catch((str) => {
-  logToFile(str)
-  logToFile('Failed to connect to Discord!')
+      setInterval(() => {
+        // Restart process and pass in a flag to give up after first attempt
+        logToFile('Restarting process with terminal flag...')
 
-  if (Config.attemptToOpenDiscordOnConnectionFailure === true && process.env.terminal !== '1') {
-    logToFile('Attempting to forcefully open Discord...')
-    Open('Discord.exe', { wait: 'true' })
-
-    setInterval(() => {
-      // Restart process and pass in a flag to give up after first attempt
-      logToFile('Restarting process with terminal flag...')
-
-      process.exit(1) // Failure, ask master process to launch terminal process.
-    }, Config.discordOpenedTimeout * 1000)
-  } else {
-    Notifier.notify({
-      title: 'roPresence Discord Error',
-      message: "Failed to connect to Discord! Make sure that Discord has been launched and that you're logged in, then launch roPresence again.",
-      sound: true,
-      icon: path.join(__dirname, 'img/no.png'),
-      wait: true
-    })
-    logToFile("Make sure that Discord has been launched and that you're logged in, then launch roPresence again.")
-    logToFile('Exiting in 5 seconds...')
-    setInterval(() => { process.exit() }, 5000)
-  }
+        process.exit(1) // Failure, ask master process to launch terminal process.
+      }, Config.discordOpenedTimeout * 1000)
+    } else {
+      let myNotification = new Notification({
+        title: 'roPresence Discord Error',
+        body: "Failed to connect to Discord! Make sure that Discord has been launched and that you're logged in, then launch roPresence again.",
+        timeoutType: "never",
+        icon: path.join(__dirname, 'img/no.png'),
+      })
+      myNotification.onclick = () => {
+        Open('Discord.exe')
+      }
+      myNotification.show()
+      logToFile("Make sure that Discord has been launched and that you're logged in, then launch roPresence again.")
+      logToFile('Exiting in 5 seconds...')
+      setInterval(() => {
+        process.exit()
+      }, 5000)
+    }
+  })
 })
