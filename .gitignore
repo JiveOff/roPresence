@@ -6,3 +6,4 @@ ropresence-win.exe
 .vscode
 SnoreToast
 .gitignore
+release-builds/*

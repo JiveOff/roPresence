@@ -1,25 +1,42 @@
 {
   "name": "ropresence",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A Discord Rich Presence using the ROBLOX Presence API.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "electron .",
+    "package-mac": "npm run package-mac-1 && npm run package-mac-2",
+    "package-mac-1": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=./img/roPresence-logo.icns --prune=true --out=release-builds",
+    "package-mac-2": "electron-installer-dmg --overwrite ./release-builds/roPresence-darwin-x64/roPresence.app roPresence --icon=./img/roPresence-logo.icns --out=release-builds",
+    "package-win": "npm run package-win-1 && npm run package-win-2",
+    "package-win-1": "electron-packager . --overwrite  --platform=win32 --arch=x64 --icon=./img/roPresence-logo.ico --prune=true --out=../release-builds",
+    "package-win-2": "node ../build.js",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=./img/roPresence-logo-1024x1024.png --prune=true --out=release-builds"
   },
   "author": "JiveOff",
   "license": "MIT",
   "dependencies": {
-    "child_process": "^1.0.2",
     "discord-rpc": "^3.1.1",
-    "express": "^4.17.1",
+    "electron-packager": "^14.2.1",
+    "electron-squirrel-startup": "^1.0.0",
     "node-fetch": "^2.6.0",
-    "node-notifier": "^7.0.1",
     "open": "^7.0.4",
-    "request": "^2.88.2",
     "socket.io-client": "^2.3.0"
   },
   "pkg": {
-    "assets": ["pages/*", "config/*", "img/*"]
+    "assets": [
+      "pages/*",
+      "config/*",
+      "img/*"
+    ]
   },
-  "bin": "index.js"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JiveOff/roPresence.git"
+  },
+  "bin": "index.js",
+  "devDependencies": {
+    "electron": "^9.0.5",
+    "standard": "^14.3.4"
+  }
 }
