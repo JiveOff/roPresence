@@ -22,7 +22,6 @@ The browsing one shows up if you are browsing the ROBLOX Website, the playing on
 https://github.com/JiveOff/roPresence/releases
 
 Everything under the prerequisites category is here if you want to use the source code instead of the binaries.
-An installation video for Windows is out: https://www.youtube.com/watch?v=DrBC7BdlyO4
 
 ## Frequently Asked Questions
 
@@ -69,61 +68,25 @@ and then follow the roPresence ROBLOX Account (https://www.roblox.com/users/1143
 
 Tada! Your presence will show your current game/ROBLOX Studio project!
 
-## Prerequisites
+## Prerequisites (Development purposes only)
 
 - [**node.js**](https://nodejs.org/en/download/current/)
 - [**Discord Desktop App**](https://discordapp.com/download)
 - [Being registered in verify.eryn.io](http://verify.eryn.io/) (roPresence will verify anyways ``¯\_(ツ)_/¯``)
 
-## Installation (Windows)
-
-- Installation Video: https://www.youtube.com/watch?v=DrBC7BdlyO4
+## Installation (Development purposes only)
 
 - Install [**node.js**](https://nodejs.org/en/download/current/)
 - Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and **unzip** the content in a folder.
-- Run the Windows_Install.bat
-- **That's it!** You are done for the installation, you may head to the Usage section.
-
-If you can't run the Windows_Install.bat file, do the following:
-
 - Open a terminal in the folder, to do that, hold Control + Caps and Right Click in a blank space of the folder to open a Powershell terminal. 
 - Once on the Terminal, run:
 ```bash
 # Run this to install all of the dependencies of roPresence.
 $ npm install
 ```
-
-## Installation (Other)
-
-- Install [**node.js**](https://nodejs.org/en/download/current/)
-- Download a release [**here**](https://github.com/JiveOff/roPresence/releases) and **unzip** the content in a folder.
-- Run the Other_Install.sh
 - **That's it!** You are done for the installation, you may head to the Usage section.
 
-If you can't run the Other_Install.sh file, do the following:
-
-- Open a terminal in the folder, to do that, hold Control + Caps and Right Click in a blank space of the folder to open a Powershell terminal. 
-- Once on the Terminal, run:
-```bash
-# Run this to install all of the dependencies of roPresence.
-$ npm install
-```
-
-## Usage (Windows)
-
-- Once roPresence is fully installed *(refer to the Installation part)*, just open the **Windows_Presence.bat** file and you're done, the Discord Rich Presence will show up! 
-
-- You can also launch roPresence in the background by opening the **Windows_BackgroundPresence.vbs** file.
-
-- *You can still use a terminal in the folder to launch roPresence:*
-```bash
-# Run this to launch roPresence.
-$ npm start
-```
-
-- To stop roPresence, just close the terminal. If you launched it in the background, click [**here**](http://127.0.0.1:3000/killRoPresence) or browse to http://127.0.0.1:3000/killRoPresence
-
-## Usage (Other)
+## Usage (Development purposes only)
 
 - Once roPresence is fully installed *(refer to the Installation part)*, just open the **Other_Presence.sh** file and you're done, the Discord Rich Presence will show up! 
 
