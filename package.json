@@ -36,6 +36,7 @@
   },
   "bin": "index.js",
   "devDependencies": {
-    "electron": "^9.0.5"
+    "electron": "^9.0.5",
+    "standard": "^14.3.4"
   }
 }
