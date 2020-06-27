@@ -5,7 +5,7 @@
 
 const DiscordRPC = require('discord-rpc')
 const io = require('socket.io-client')
-const Fetch = require('node-fetch')
+const Axios = require('axios')
 const {
   app,
   Menu,
@@ -15,6 +15,8 @@ const {
 const Open = require('open')
 const Config = require('./config/config.json')
 const File = require('fs')
+
+const operateWindows = process.platform === 'win32'
 
 const path = require('path')
 
@@ -100,12 +102,35 @@ let socketPresence = false
 let busyRetrying = false
 
 async function getRobloxPresence () {
-  try {
-    const data = await Fetch('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
-    return await data.json()
-  } catch (e) {
-    await logToFile(e)
-    return false
+  if (operateWindows) {
+    try {
+      const bloxauth = require('./lib/bloxauth')
+      const res = await bloxauth.post({ url: 'https://presence.roblox.com/v1/presence/users', data: { userIds: [robloxUser.robloxId] } })
+      return {
+        request: {
+          status: 'ok',
+          userId: robloxUser.robloxId
+        },
+        presence: res.data
+      }
+    } catch (e) {
+      await logToFile(e)
+      try {
+        const res = await Axios.get('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
+        return res.data
+      } catch (er) {
+        await logToFile(er)
+        return false
+      }
+    }
+  } else {
+    try {
+      const res = await Axios.get('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
+      return res.data
+    } catch (e) {
+      await logToFile(e)
+      return false
+    }
   }
 }
 
@@ -263,7 +288,7 @@ async function setActivity () {
       icon: path.join(__dirname, 'img/yes.png')
     })
     notification.show()
-    await logToFile('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.\nIf you unverify, roPresence will stop showing the Discord Presence and ask you to verify yourself again.\n\nTo keep the Discord Presence, DO NOT close this window. You can close it when you will be done.')
+    await logToFile('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.')
     const contextMenu = Menu.buildFromTemplate([{
       label: 'Logged in.',
       type: 'normal'
@@ -301,9 +326,11 @@ async function setActivity () {
   }
 }
 
+// C:\Users\antoi\WebstormProjects\roPresence-electron\release-builds\ropresence-win32-x64
+
 async function getRoverUser () {
-  const data = await Fetch('https://verify.eryn.io/api/user/' + RPC.user.id)
-  return await data.json()
+  const res = await Axios.get('https://verify.eryn.io/api/user/' + RPC.user.id)
+  return res.data
 }
 
 async function initSocket () {
@@ -350,6 +377,7 @@ async function robloxVerify () {
   const result = await getRoverUser()
   if (result.status === 'ok') {
     robloxUser = result
+    await initSocket()
     await setActivity()
   } else {
     if (busyRetrying) {
@@ -399,15 +427,6 @@ async function robloxVerify () {
 
 async function init () {
   await robloxVerify()
-  await initSocket()
-
-  const busy = setInterval(() => {
-    if (busyRetrying) {
-      clearInterval(busy)
-    } else {
-      robloxVerify()
-    }
-  }, 15e3)
 }
 
 app.whenReady().then(async () => {
@@ -440,7 +459,7 @@ app.whenReady().then(async () => {
   tray.setContextMenu(contextMenu)
   const notification = new Notification({
     title: 'roPresence',
-    body: 'Now loading, this may take some seconds.',
+    body: 'Now loading ' + require('./package.json').version + ', this may take some seconds.',
     timeoutType: 'never',
     icon: path.join(__dirname, 'img/roPresence-logo.png')
   })
