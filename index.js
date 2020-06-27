@@ -377,6 +377,7 @@ async function robloxVerify () {
   const result = await getRoverUser()
   if (result.status === 'ok') {
     robloxUser = result
+    await initSocket()
     await setActivity()
   } else {
     if (busyRetrying) {
@@ -426,15 +427,6 @@ async function robloxVerify () {
 
 async function init () {
   await robloxVerify()
-  await initSocket()
-
-  /*const busy = setInterval(() => {
-    if (busyRetrying) {
-      clearInterval(busy)
-    } else {
-      robloxVerify()
-    }
-  }, 15e3)*/
 }
 
 app.whenReady().then(async () => {
