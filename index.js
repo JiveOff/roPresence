@@ -88,7 +88,7 @@ const RPC = new DiscordRPC.Client({
   transport: 'ipc'
 })
 
-let robloxUser = {}
+let robloxUser
 
 let elapsed = new Date()
 let elapsedLoc = ''
@@ -175,6 +175,60 @@ async function exitRoPresence () {
   }, 5e3)
 }
 
+function updateTrayMenu() {
+  const contextMenu = Menu.buildFromTemplate([{
+    label: 'Logged in.',
+    type: 'normal'
+  },
+    {
+      label: 'Roblox: ' + robloxUser.robloxUsername,
+      type: 'normal'
+    },
+    {
+      label: 'Discord: ' + RPC.user.username + '#' + RPC.user.discriminator,
+      type: 'normal'
+    },
+    {
+      label: 'Item2',
+      type: 'separator'
+    },
+    {
+      label: 'Start on login',
+      type: 'checkbox',
+      checked: app.getLoginItemSettings().openAtLogin,
+      click: () => {
+        let settings = !app.getLoginItemSettings().openAtLogin;
+        app.setLoginItemSettings({
+          openAtLogin: settings,
+          path: app.getPath("exe")
+        });
+        updateTrayMenu()
+      }
+    },
+    {
+      label: 'Item2',
+      type: 'separator'
+    },
+    {
+      label: 'Exit roPresence',
+      type: 'normal',
+      click: async function () {
+        exitRoPresence()
+        tray.destroy()
+      }
+    },
+    {
+      label: 'View Logs',
+      type: 'normal',
+      click: function () {
+        Open('./roPresence_log.txt')
+      }
+    }
+  ])
+  tray.setToolTip('roPresence')
+  tray.setContextMenu(contextMenu)
+}
+
 async function setActivity () {
   if (!RPC) {
     return
@@ -197,6 +251,8 @@ async function setActivity () {
     await exitRoPresence()
     return
   }
+
+  console.log(presence)
 
   const presenceInfo = presence.presence.userPresences[0]
 
@@ -289,40 +345,7 @@ async function setActivity () {
     })
     notification.show()
     await logToFile('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.')
-    const contextMenu = Menu.buildFromTemplate([{
-      label: 'Logged in.',
-      type: 'normal'
-    },
-    {
-      label: 'Roblox: ' + robloxUser.robloxUsername,
-      type: 'normal'
-    },
-    {
-      label: 'Discord: ' + RPC.user.username + '#' + RPC.user.discriminator,
-      type: 'normal'
-    },
-    {
-      label: 'Item2',
-      type: 'separator'
-    },
-    {
-      label: 'Exit roPresence',
-      type: 'normal',
-      click: function () {
-        exitRoPresence()
-        tray.destroy()
-      }
-    },
-    {
-      label: 'View Logs',
-      type: 'normal',
-      click: function () {
-        Open('./roPresence_log.txt')
-      }
-    }
-    ])
-    tray.setToolTip('roPresence')
-    tray.setContextMenu(contextMenu)
+    updateTrayMenu()
   }
 }
 
@@ -374,6 +397,10 @@ async function initSocket () {
 }
 
 async function robloxVerify () {
+  if(robloxUser) {
+    await setActivity()
+    return
+  }
   const result = await getRoverUser()
   if (result.status === 'ok') {
     robloxUser = result
@@ -427,6 +454,13 @@ async function robloxVerify () {
 
 async function init () {
   await robloxVerify()
+  const busy = setInterval(async () => {
+    if (busyRetrying) {
+      clearInterval(busy)
+    } else {
+      await robloxVerify()
+    }
+  }, 15e3)
 }
 
 app.whenReady().then(async () => {
