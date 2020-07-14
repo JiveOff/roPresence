@@ -454,13 +454,13 @@ async function robloxVerify () {
 
 async function init () {
   await robloxVerify()
-  const busy = setInterval(async () => {
+  /*const busy = setInterval(async () => {
     if (busyRetrying) {
       clearInterval(busy)
     } else {
       await robloxVerify()
     }
-  }, 15e3)
+  }, 15e3)*/
 }
 
 app.whenReady().then(async () => {
