@@ -150,9 +150,9 @@ async function sendTip () {
       timeoutType: 'never'
     })
     notification.show()
-    notification.onclick = () => {
+    notification.on('click', (event) => {
       Open('https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
-    }
+    })
   }
 }
 
@@ -424,9 +424,9 @@ async function robloxVerify () {
       timeoutType: 'never'
     })
     notification.show()
-    notification.onclick = () => {
+    notification.on('click', (event) => {
       Open('https://verify.eryn.io/')
-    }
+    })
     await logToFile('RoVer: API returned an error: ' + result.error)
     let count = 0
     const retry = setInterval(async () => {
@@ -498,10 +498,10 @@ async function initUpdater() {
           timeoutType: 'never',
           icon: path.join(__dirname, 'img/roPresence-logo.png')
         })
-        notification.onclick = () => {
-          autoUpdater.quitAndInstall()
-        }
         notification.show()
+        notification.on('click', (event) => {
+          autoUpdater.quitAndInstall()
+        })
 
         tray.setToolTip("roPresence - Update downloaded.")
       }
@@ -509,6 +509,10 @@ async function initUpdater() {
 
   autoUpdater.setFeedURL(AUTO_UPDATE_URL)
   autoUpdater.checkForUpdates()
+
+  setInterval(() => {
+    autoUpdater.checkForUpdates()
+  }, 10 * 60 * 1000)
 }
 
 async function init () {
@@ -596,10 +600,10 @@ app.whenReady().then(async () => {
         timeoutType: 'never',
         icon: path.join(__dirname, 'img/no.png')
       })
-      notification.onclick = () => {
-        Open('Discord.exe')
-      }
       notification.show()
+      notification.on('click', (event) => {
+        Open('Discord.exe')
+      })
       await logToFile("Make sure that Discord has been launched and that you're logged in, then launch roPresence again.")
       await logToFile('Exiting in 5 seconds...')
       setInterval(() => {
