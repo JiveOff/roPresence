@@ -3,18 +3,24 @@
  * Thanks to ddavness for the awesome PRs!
  */
 
+const APP_VERSION = require('./package.json').version
+const AUTO_UPDATE_URL = 'https://api.update.rocks/update/github.com/JiveOff/roPresence/stable/' + process.platform + '/' + APP_VERSION
+
 const DiscordRPC = require('discord-rpc')
 const io = require('socket.io-client')
-const Fetch = require('node-fetch')
+const Axios = require('axios')
 const {
   app,
+  autoUpdater,
   Menu,
   Tray,
-  Notification
+  Notification,
 } = require('electron')
 const Open = require('open')
 const Config = require('./config/config.json')
 const File = require('fs')
+
+const operateWindows = process.platform === 'win32'
 
 const path = require('path')
 
@@ -86,7 +92,7 @@ const RPC = new DiscordRPC.Client({
   transport: 'ipc'
 })
 
-let robloxUser = {}
+let robloxUser
 
 let elapsed = new Date()
 let elapsedLoc = ''
@@ -100,12 +106,35 @@ let socketPresence = false
 let busyRetrying = false
 
 async function getRobloxPresence () {
-  try {
-    const data = await Fetch('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
-    return await data.json()
-  } catch (e) {
-    await logToFile(e)
-    return false
+  if (operateWindows) {
+    try {
+      const bloxauth = require('./lib/bloxauth')
+      const res = await bloxauth.post({ url: 'https://presence.roblox.com/v1/presence/users', data: { userIds: [robloxUser.robloxId] } })
+      return {
+        request: {
+          status: 'ok',
+          userId: robloxUser.robloxId
+        },
+        presence: res.data
+      }
+    } catch (e) {
+      await logToFile(e)
+      try {
+        const res = await Axios.get('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
+        return res.data
+      } catch (er) {
+        await logToFile(er)
+        return false
+      }
+    }
+  } else {
+    try {
+      const res = await Axios.get('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
+      return res.data
+    } catch (e) {
+      await logToFile(e)
+      return false
+    }
   }
 }
 
@@ -150,6 +179,60 @@ async function exitRoPresence () {
   }, 5e3)
 }
 
+function updateTrayMenu() {
+  const contextMenu = Menu.buildFromTemplate([{
+    label: 'Logged in.',
+    type: 'normal'
+  },
+    {
+      label: 'Roblox: ' + robloxUser.robloxUsername,
+      type: 'normal'
+    },
+    {
+      label: 'Discord: ' + RPC.user.username + '#' + RPC.user.discriminator,
+      type: 'normal'
+    },
+    {
+      label: 'Item2',
+      type: 'separator'
+    },
+    {
+      label: 'Start on login',
+      type: 'checkbox',
+      checked: app.getLoginItemSettings().openAtLogin,
+      click: () => {
+        let settings = !app.getLoginItemSettings().openAtLogin;
+        app.setLoginItemSettings({
+          openAtLogin: settings,
+          path: app.getPath("exe")
+        });
+        updateTrayMenu()
+      }
+    },
+    {
+      label: 'Item2',
+      type: 'separator'
+    },
+    {
+      label: 'Exit roPresence',
+      type: 'normal',
+      click: async function () {
+        exitRoPresence()
+        tray.destroy()
+      }
+    },
+    {
+      label: 'View Logs',
+      type: 'normal',
+      click: function () {
+        Open('./roPresence_log.txt')
+      }
+    }
+  ])
+  tray.setToolTip('roPresence')
+  tray.setContextMenu(contextMenu)
+}
+
 async function setActivity () {
   if (!RPC) {
     return
@@ -172,6 +255,8 @@ async function setActivity () {
     await exitRoPresence()
     return
   }
+
+  console.log(presence)
 
   const presenceInfo = presence.presence.userPresences[0]
 
@@ -263,47 +348,16 @@ async function setActivity () {
       icon: path.join(__dirname, 'img/yes.png')
     })
     notification.show()
-    await logToFile('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.\nIf you unverify, roPresence will stop showing the Discord Presence and ask you to verify yourself again.\n\nTo keep the Discord Presence, DO NOT close this window. You can close it when you will be done.')
-    const contextMenu = Menu.buildFromTemplate([{
-      label: 'Logged in.',
-      type: 'normal'
-    },
-    {
-      label: 'Roblox: ' + robloxUser.robloxUsername,
-      type: 'normal'
-    },
-    {
-      label: 'Discord: ' + RPC.user.username + '#' + RPC.user.discriminator,
-      type: 'normal'
-    },
-    {
-      label: 'Item2',
-      type: 'separator'
-    },
-    {
-      label: 'Exit roPresence',
-      type: 'normal',
-      click: function () {
-        exitRoPresence()
-        tray.destroy()
-      }
-    },
-    {
-      label: 'View Logs',
-      type: 'normal',
-      click: function () {
-        Open('./roPresence_log.txt')
-      }
-    }
-    ])
-    tray.setToolTip('roPresence')
-    tray.setContextMenu(contextMenu)
+    await logToFile('Presence API: Your Discord presence will now be updated every 15 seconds with the ' + robloxUser.robloxUsername + ' ROBLOX Account.')
+    updateTrayMenu()
   }
 }
 
+// C:\Users\antoi\WebstormProjects\roPresence-electron\release-builds\ropresence-win32-x64
+
 async function getRoverUser () {
-  const data = await Fetch('https://verify.eryn.io/api/user/' + RPC.user.id)
-  return await data.json()
+  const res = await Axios.get('https://verify.eryn.io/api/user/' + RPC.user.id)
+  return res.data
 }
 
 async function initSocket () {
@@ -347,9 +401,14 @@ async function initSocket () {
 }
 
 async function robloxVerify () {
+  if(robloxUser) {
+    await setActivity()
+    return
+  }
   const result = await getRoverUser()
   if (result.status === 'ok') {
     robloxUser = result
+    await initSocket()
     await setActivity()
   } else {
     if (busyRetrying) {
@@ -397,17 +456,61 @@ async function robloxVerify () {
   }
 }
 
-async function init () {
-  await robloxVerify()
-  await initSocket()
+async function initUpdater() {
+  autoUpdater.on(
+      'error',
+      async (err) => await logToFile("roPresence Error: Autoupdater - " + err.message + "."))
 
-  const busy = setInterval(() => {
+  autoUpdater.on(
+      'checking-for-update',
+      async () => await logToFile('roPresence Info: Autoupdater - Checking for updates.'))
+
+  autoUpdater.on(
+      'update-available',
+      async () => await logToFile('roPresence Info: Autoupdater - Update available.'))
+
+  autoUpdater.on(
+      'update-not-available',
+      async () => await logToFile('roPresence Info: Autoupdater - No update available.'))
+
+  // Ask the user if he wants to update if update is available
+  autoUpdater.on(
+      'update-downloaded',
+      (event, releaseNotes, releaseName) => {
+
+        const notification = new Notification({
+          title: 'roPresence Update Available',
+          body: "Version " + releaseName + " is available! Click this bubble to install it.",
+          timeoutType: 'never',
+          icon: path.join(__dirname, 'img/roPresence-logo.png')
+        })
+        notification.onclick = () => {
+          autoUpdater.quitAndInstall()
+        }
+        notification.show()
+      }
+  )
+
+  autoUpdater.setFeedURL(AUTO_UPDATE_URL)
+  autoUpdater.checkForUpdates()
+}
+
+async function init () {
+
+  if (process.platform === 'linux') {
+    await logToFile('roPresence Information: Autoupdater is not available on Linux.')
+  } else {
+    initUpdater()
+  }
+
+  await robloxVerify()
+  /*const busy = setInterval(async () => {
     if (busyRetrying) {
       clearInterval(busy)
     } else {
-      robloxVerify()
+      await robloxVerify()
     }
-  }, 15e3)
+  }, 15e3)*/
 }
 
 app.whenReady().then(async () => {
@@ -440,7 +543,7 @@ app.whenReady().then(async () => {
   tray.setContextMenu(contextMenu)
   const notification = new Notification({
     title: 'roPresence',
-    body: 'Now loading, this may take some seconds.',
+    body: 'Now loading ' + require('./package.json').version + ', this may take some seconds.',
     timeoutType: 'never',
     icon: path.join(__dirname, 'img/roPresence-logo.png')
   })

@@ -23,6 +23,18 @@ https://github.com/JiveOff/roPresence/releases
 
 Everything under the prerequisites category is here if you want to use the source code instead of the binaries.
 
+## Making the game name show or use roActivity
+
+You will have to update your Privacy settings to make it public or just like the following:
+
+<img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
+
+and then follow the roPresence ROBLOX Account (https://www.roblox.com/users/1143479593/profile) like the following:
+
+<img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Following.png" alt="Following"/>
+
+Tada! Your presence will show your current game/ROBLOX Studio project!
+
 ## Frequently Asked Questions
 
 This part can be updated anytime with the questions I will receive.
@@ -55,18 +67,6 @@ The remote API is maybe down or restarted for an update, relaunch roPresence to 
 
 - **Can I become friends with roPresence_bot?**
 No.
-
-## Making the game name show
-
-You will have to update your Privacy settings to make it public or just like the following:
-
-<img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Privacy.png" alt="Privacy settings"/>
-
-and then follow the roPresence ROBLOX Account (https://www.roblox.com/users/1143479593/profile) like the following:
-
-<img src="https://raw.githubusercontent.com/JiveOff/roPresence/master/img/Following.png" alt="Following"/>
-
-Tada! Your presence will show your current game/ROBLOX Studio project!
 
 ## Prerequisites (Development purposes only)
 
