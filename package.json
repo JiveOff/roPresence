@@ -18,7 +18,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "discord-rpc": "^3.1.1",
-    "electron-packager": "^14.2.1",
+    "electron-packager": "^15.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.3.1",
     "open": "^7.0.4",
@@ -38,7 +38,7 @@
   },
   "bin": "index.js",
   "devDependencies": {
-    "electron": "^9.0.5",
+    "electron": "^9.1.0",
     "electron-builder": "^22.7.0",
     "standard": "^14.3.4"
   }
