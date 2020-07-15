@@ -3,14 +3,18 @@
  * Thanks to ddavness for the awesome PRs!
  */
 
+const APP_VERSION = require('./package.json').version
+const AUTO_UPDATE_URL = 'https://api.update.rocks/update/github.com/JiveOff/roPresence/stable/' + process.platform + '/' + APP_VERSION
+
 const DiscordRPC = require('discord-rpc')
 const io = require('socket.io-client')
 const Axios = require('axios')
 const {
   app,
+  autoUpdater,
   Menu,
   Tray,
-  Notification
+  Notification,
 } = require('electron')
 const Open = require('open')
 const Config = require('./config/config.json')
@@ -452,7 +456,53 @@ async function robloxVerify () {
   }
 }
 
+async function initUpdater() {
+  autoUpdater.on(
+      'error',
+      async (err) => await logToFile("roPresence Error: Autoupdater - " + err.message + "."))
+
+  autoUpdater.on(
+      'checking-for-update',
+      async () => await logToFile('roPresence Info: Autoupdater - Checking for updates.'))
+
+  autoUpdater.on(
+      'update-available',
+      async () => await logToFile('roPresence Info: Autoupdater - Update available.'))
+
+  autoUpdater.on(
+      'update-not-available',
+      async () => await logToFile('roPresence Info: Autoupdater - No update available.'))
+
+  // Ask the user if he wants to update if update is available
+  autoUpdater.on(
+      'update-downloaded',
+      (event, releaseNotes, releaseName) => {
+
+        const notification = new Notification({
+          title: 'roPresence Update Available',
+          body: "Version " + releaseName + " is available! Click this bubble to install it.",
+          timeoutType: 'never',
+          icon: path.join(__dirname, 'img/roPresence-logo.png')
+        })
+        notification.onclick = () => {
+          autoUpdater.quitAndInstall()
+        }
+        notification.show()
+      }
+  )
+
+  autoUpdater.setFeedURL(AUTO_UPDATE_URL)
+  autoUpdater.checkForUpdates()
+}
+
 async function init () {
+
+  if (process.platform === 'linux') {
+    await logToFile('roPresence Information: Autoupdater is not available on Linux.')
+  } else {
+    initUpdater()
+  }
+
   await robloxVerify()
   /*const busy = setInterval(async () => {
     if (busyRetrying) {
