@@ -229,7 +229,6 @@ function updateTrayMenu() {
       }
     }
   ])
-  tray.setToolTip('roPresence')
   tray.setContextMenu(contextMenu)
 }
 
@@ -328,7 +327,7 @@ async function setActivity () {
   if (rpcInfo) {
     rpcInfo.largeImageKey = 'logo'
     if (Config.showUsernameInPresence === true) {
-      rpcInfo.largeImageText = robloxUser.robloxUsername
+      rpcInfo.largeImageText = robloxUser.robloxUsername + " is using roPresence " + APP_VERSION
     } else {
       rpcInfo.largeImageText = 'Hidden user'
     }
@@ -457,23 +456,38 @@ async function robloxVerify () {
 }
 
 async function initUpdater() {
+
   autoUpdater.on(
       'error',
       async (err) => await logToFile("roPresence Error: Autoupdater - " + err.message + "."))
 
   autoUpdater.on(
       'checking-for-update',
-      async () => await logToFile('roPresence Info: Autoupdater - Checking for updates.'))
+      async () => {
+        await logToFile('roPresence Info: Autoupdater - Checking for updates...')
+        tray.setToolTip("roPresence - Checking for updates...")
+      })
 
   autoUpdater.on(
       'update-available',
-      async () => await logToFile('roPresence Info: Autoupdater - Update available.'))
+      async () => {
+        await logToFile('roPresence Info: Autoupdater - Update available.')
+        tray.setToolTip("roPresence - Update available.")
+      })
 
   autoUpdater.on(
       'update-not-available',
-      async () => await logToFile('roPresence Info: Autoupdater - No update available.'))
+      async () => {
+        await logToFile('roPresence Info: Autoupdater - No update available.')
+        tray.setToolTip("roPresence " + APP_VERSION)
+      })
 
-  // Ask the user if he wants to update if update is available
+  autoUpdater.on(
+      'download-progress',
+      (obj) => {
+        tray.setToolTip("roPresence - Downloading update: " + Math.round(obj.percent) + "%")
+      })
+
   autoUpdater.on(
       'update-downloaded',
       (event, releaseNotes, releaseName) => {
@@ -488,6 +502,8 @@ async function initUpdater() {
           autoUpdater.quitAndInstall()
         }
         notification.show()
+
+        tray.setToolTip("roPresence - Update downloaded.")
       }
   )
 
