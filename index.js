@@ -4,7 +4,8 @@
  */
 
 const APP_VERSION = require('./package.json').version
-const AUTO_UPDATE_URL = 'https://api.update.rocks/update/github.com/JiveOff/roPresence/stable/' + process.platform + '/' + APP_VERSION
+const UPDATE_SERVER = "https://ropresence-hazel.vercel.app"
+const AUTO_UPDATE_URL = UPDATE_SERVER + "/update/" + process.platform + "/" + APP_VERSION
 
 const DiscordRPC = require('discord-rpc')
 const io = require('socket.io-client')
@@ -149,10 +150,10 @@ async function sendTip () {
       icon: path.join(__dirname, 'img/game.png'),
       timeoutType: 'never'
     })
-    notification.show()
     notification.on('click', (event) => {
       Open('https://github.com/JiveOff/roPresence/blob/master/README.md#making-the-game-name-show')
     })
+    notification.show()
   }
 }
 
@@ -423,10 +424,10 @@ async function robloxVerify () {
       icon: path.join(__dirname, 'img/no.png'),
       timeoutType: 'never'
     })
-    notification.show()
     notification.on('click', (event) => {
       Open('https://verify.eryn.io/')
     })
+    notification.show()
     await logToFile('RoVer: API returned an error: ' + result.error)
     let count = 0
     const retry = setInterval(async () => {
@@ -494,14 +495,14 @@ async function initUpdater() {
 
         const notification = new Notification({
           title: 'roPresence Update Available',
-          body: "Version " + releaseName + " is available! Click this bubble to install it.",
+          body: "Version " + releaseName + " is available! Click this bubble or restart roPresence to install it.",
           timeoutType: 'never',
           icon: path.join(__dirname, 'img/roPresence-logo.png')
         })
-        notification.show()
         notification.on('click', (event) => {
           autoUpdater.quitAndInstall()
         })
+        notification.show()
 
         tray.setToolTip("roPresence - Update downloaded.")
       }
@@ -600,10 +601,10 @@ app.whenReady().then(async () => {
         timeoutType: 'never',
         icon: path.join(__dirname, 'img/no.png')
       })
-      notification.show()
       notification.on('click', (event) => {
         Open('Discord.exe')
       })
+      notification.show()
       await logToFile("Make sure that Discord has been launched and that you're logged in, then launch roPresence again.")
       await logToFile('Exiting in 5 seconds...')
       setInterval(() => {
