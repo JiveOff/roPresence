@@ -119,23 +119,10 @@ async function getRobloxPresence () {
         presence: res.data
       }
     } catch (e) {
-      await logToFile(e)
-      try {
-        const res = await Axios.get('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
-        return res.data
-      } catch (er) {
-        await logToFile(er)
-        return false
-      }
-    }
-  } else {
-    try {
-      const res = await Axios.get('http://vps1.jiveoff.fr:3000/presences/' + robloxUser.robloxId)
-      return res.data
-    } catch (e) {
-      await logToFile(e)
       return false
     }
+  } else {
+    return false
   }
 }
 
@@ -245,10 +232,10 @@ async function setActivity () {
   }
 
   if (error) {
-    await logToFile('roPresence API Error: roPresence ran into an error and had to stop. This error is mainly due to a remote API problem.\nPlease restart the presence.')
+    await logToFile('roPresence API Error: roPresence ran into an error and had to stop. Please make sure that you opened Roblox Studio recently and re-open roPresence.\nPlease open Studio and restart roPresence.')
     const notif = new Notification({
       title: 'roPresence API Error',
-      body: 'roPresence ran into an error and had to stop.',
+      body: 'Please make sure that you opened Roblox Studio recently and re-open roPresence.',
       icon: path.join(__dirname, 'img/no.png')
     })
     notif.show()
@@ -367,7 +354,8 @@ async function initSocket () {
     reconnect: true,
     query: {
       robloxId: robloxUser.robloxId,
-      robloxUsername: robloxUser.robloxUsername
+      robloxUsername: robloxUser.robloxUsername,
+      clientVersion: APP_VERSION
     }
   })
 
@@ -388,15 +376,21 @@ async function initSocket () {
   })
 
   socket.on('setPresence', async (presence) => {
-    await logToFile('Socket Client: Updating socket presence.. ')
-    await RPC.setActivity(presence)
-    socketPresence = true
+    let prc = await getRobloxPresence();
+    if(prc.presence.userPresences[0].placeId === presence.place) {
+      await logToFile('Socket Client: Updating socket presence.. ')
+      await RPC.setActivity(presence)
+      socketPresence = true
+    }
   })
 
-  socket.on('clearPresence', async () => {
-    await logToFile('Socket Client: Clearing socket presence.. ')
-    await setActivity()
-    socketPresence = false
+  socket.on('clearPresence', async (presence) => {
+    let prc = await getRobloxPresence();
+    if(prc.presence.userPresences[0].placeId === presence.place) {
+      await logToFile('Socket Client: Clearing socket presence.. ')
+      await setActivity()
+      socketPresence = false
+    }
   })
 }
 
