@@ -103,6 +103,7 @@ let loaded = false
 let tipSuccess = false
 
 let socketPresence = false
+let socketPresencePlace
 
 let busyRetrying = false
 
@@ -247,8 +248,12 @@ async function setActivity () {
 
   const presenceInfo = presence.presence.userPresences[0]
 
-  if (socketPresence) {
-    return
+  if(socketPresence === true) {
+    if(presenceInfo.placeId !== socketPresencePlace) {
+      await logToFile('Socket Client: Clearing socket presence because not in game anymore.. ')
+      await setActivity()
+      socketPresence = false
+    }
   }
 
   let rpcInfo = {}
@@ -379,8 +384,9 @@ async function initSocket () {
     let prc = await getRobloxPresence();
     if(prc.presence.userPresences[0].placeId === presence.place) {
       await logToFile('Socket Client: Updating socket presence.. ')
-      await RPC.setActivity(presence)
+      await RPC.setActivity(presence.presence)
       socketPresence = true
+      socketPresencePlace = presence.place
     }
   })
 
@@ -468,6 +474,14 @@ async function initUpdater() {
       async () => {
         await logToFile('roPresence Info: Autoupdater - Update available.')
         tray.setToolTip("roPresence - Update available.")
+
+        const notification = new Notification({
+          title: 'roPresence Update Available',
+          body: "A new roPresence update is available. Starting the download.",
+          timeoutType: 'never',
+          icon: path.join(__dirname, 'img/roPresence-logo.png')
+        })
+        notification.show()
       })
 
   autoUpdater.on(
@@ -488,8 +502,8 @@ async function initUpdater() {
       (event, releaseNotes, releaseName) => {
 
         const notification = new Notification({
-          title: 'roPresence Update Available',
-          body: "Version " + releaseName + " is available! Click this bubble or restart roPresence to install it.",
+          title: 'roPresence Update Downloaded',
+          body: "Version " + releaseName + " was downloaded. Restart roPresence to install it.",
           timeoutType: 'never',
           icon: path.join(__dirname, 'img/roPresence-logo.png')
         })
