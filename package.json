@@ -1,6 +1,6 @@
 {
   "name": "ropresence",
-  "version": "2.1.4",
+  "version": "2.2.0",
   "description": "A Discord Rich Presence using the ROBLOX Presence API.",
   "main": "index.js",
   "scripts": {
