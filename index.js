@@ -254,6 +254,7 @@ async function setActivity () {
       await setActivity()
       socketPresence = false
     }
+    return
   }
 
   let rpcInfo = {}
