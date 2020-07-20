@@ -533,13 +533,13 @@ async function init () {
   }
 
   await robloxVerify()
-  /*const busy = setInterval(async () => {
+  const busy = setInterval(async () => {
     if (busyRetrying) {
       clearInterval(busy)
     } else {
       await robloxVerify()
     }
-  }, 15e3)*/
+  }, 15e3)
 }
 
 app.whenReady().then(async () => {
@@ -570,13 +570,13 @@ app.whenReady().then(async () => {
   ])
   tray.setToolTip('roPresence - Loading...')
   tray.setContextMenu(contextMenu)
-  const notification = new Notification({
+  /*const notification = new Notification({
     title: 'roPresence',
     body: 'Now loading ' + require('./package.json').version + ', this may take some seconds.',
     timeoutType: 'never',
     icon: path.join(__dirname, 'img/roPresence-logo.png')
   })
-  notification.show()
+  notification.show()*/
 
   await logToFile('RPC: Attempting to login through IPC.')
   RPC.on('ready', async () => {
