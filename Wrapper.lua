@@ -32,7 +32,7 @@
 		Example code:
 		
 			result = roActivity:SetUserRichPresence(player.UserId, {
-				state = "Waiting..";
+				details = "Waiting..";
 			})
 			if(result.success == true) then
 				print(player.UserId .. "'s presence has been updated.")
