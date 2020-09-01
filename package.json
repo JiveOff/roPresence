@@ -38,7 +38,7 @@
   },
   "bin": "index.js",
   "devDependencies": {
-    "electron": "^9.1.1",
+    "electron": "^10.1.1",
     "electron-builder": "^22.7.0",
     "standard": "^14.3.4"
   }
