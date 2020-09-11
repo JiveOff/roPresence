@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",
-    "discord-rpc": "^3.1.2",
+    "discord-rpc": "^3.1.4",
     "electron-packager": "^15.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.3.1",
