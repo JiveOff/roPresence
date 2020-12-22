@@ -16,7 +16,7 @@
   "author": "JiveOff",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "discord-rpc": "^3.1.4",
     "electron-packager": "^15.1.0",
     "electron-squirrel-startup": "^1.0.0",
