@@ -20,7 +20,7 @@
     "discord-rpc": "^3.1.4",
     "electron-packager": "^15.1.0",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-updater": "^4.3.5",
+    "electron-updater": "^4.3.9",
     "open": "^7.3.0",
     "rage-edit": "^1.2.0",
     "socket.io-client": "^3.0.0"
